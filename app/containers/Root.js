@@ -5,6 +5,7 @@ import { ConnectedRouter } from 'connected-react-router'
 import { hot } from 'react-hot-loader/root'
 import Routes from '../Routes'
 
+// $FlowFixMe
 const Root = ({ store, history }: Props) => (
   <Provider store={store}>
     <ConnectedRouter history={history}>
