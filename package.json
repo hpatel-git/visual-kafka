@@ -277,6 +277,8 @@
     "react-router": "^5.1.2",
     "react-router-dom": "^5.1.2",
     "redux": "^4.0.4",
+    "redux-devtools-extension": "^2.13.8",
+    "redux-immutable-state-invariant": "^2.1.0",
     "redux-thunk": "^2.3.0",
     "source-map-support": "^0.5.16"
   },

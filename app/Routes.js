@@ -7,7 +7,7 @@ import ConnectionPage from './containers/ConnectionPage'
 export default () => (
   <App>
     <Switch>
-      <Route path={routes.HOME} component={ConnectionPage} />
+      <Route path={routes.CONNECTIONS} component={ConnectionPage} />
     </Switch>
   </App>
 )
