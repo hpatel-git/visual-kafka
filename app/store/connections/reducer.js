@@ -6,7 +6,13 @@ import {
 } from './actionType'
 
 export const initialState = {
-  connections: [],
+  connections: [
+    {
+      connection_name: 'TTE Production',
+      description: 'Production TTE Kafka',
+      bootstrap_server_urls: 'kafka-ttc-app.prod.target.com:9092',
+    },
+  ],
   isFetching: false,
 }
 
