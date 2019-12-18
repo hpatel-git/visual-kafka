@@ -11,7 +11,7 @@ export const initialState = {
       id: '928cbf99-1e38-4d20-888e-cd9a8302b99d',
       connection_name: 'TTE Production',
       description: 'Production TTE Kafka',
-      bootstrap_server_urls: 'kafka-ttc-app.prod.target.com:9092',
+      bootstrap_server_urls: '********:9092',
     },
   ],
   isFetching: false,
