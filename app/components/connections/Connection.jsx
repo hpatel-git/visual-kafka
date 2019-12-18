@@ -12,6 +12,7 @@ import {
 } from '@material-ui/core'
 import EditIcon from '@material-ui/icons/Edit'
 import DeleteIcon from '@material-ui/icons/Delete'
+import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline'
 
 Connection.propTypes = {
   connectionDetails: PropTypes.shape({
@@ -58,6 +59,16 @@ export default function Connection(props) {
             </Typography>
           </CardContent>
           <CardActions>
+            <Tooltip title="Connect">
+              <Fab
+                color="primary"
+                size="small"
+                className={classes.actionButtons}
+                aria-label="connect"
+              >
+                <PlayCircleOutlineIcon />
+              </Fab>
+            </Tooltip>
             <Tooltip title="Edit Connection">
               <Fab
                 color="primary"
