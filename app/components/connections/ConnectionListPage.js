@@ -21,6 +21,8 @@ class ConnectionListPage extends Component<Props> {
   }
 
   render() {
+    const { configurations } = this.props
+    console.log(configurations)
     return (
       <Grid
         container
@@ -28,7 +30,10 @@ class ConnectionListPage extends Component<Props> {
         justify="flex-start"
         alignItems="flex-start"
       >
-        <Connection connectionName="test" />
+        {configurations &&
+          configurations.map(config => (
+            <Connection key={config.id} connectionDetails={config} />
+          ))}
       </Grid>
     )
   }
@@ -36,8 +41,9 @@ class ConnectionListPage extends Component<Props> {
 
 const mapStateToProps = state => {
   const { connections } = state
+  const { configurations } = connections
   return {
-    connections,
+    configurations,
   }
 }
 

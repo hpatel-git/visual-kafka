@@ -14,7 +14,11 @@ import EditIcon from '@material-ui/icons/Edit'
 import DeleteIcon from '@material-ui/icons/Delete'
 
 Connection.propTypes = {
-  connectionName: PropTypes.string.isRequired,
+  connectionDetails: PropTypes.shape({
+    connection_name: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    bootstrap_server_urls: PropTypes.string.isRequired,
+  }).isRequired,
 }
 
 const useStyles = makeStyles({
@@ -33,7 +37,7 @@ const useStyles = makeStyles({
 })
 export default function Connection(props) {
   const classes = useStyles()
-  const { connectionName } = props
+  const { connectionDetails } = props
   return (
     <>
       <Grid item xs={6} sm={3}>
@@ -44,13 +48,13 @@ export default function Connection(props) {
               color="textSecondary"
               gutterBottom
             >
-              {connectionName}
+              {connectionDetails.connection_name}
             </Typography>
             <Typography variant="body2" component="p">
-              Connection Description
+              {connectionDetails.description}
             </Typography>
             <Typography variant="body2" component="p">
-              Boot strap servers
+              {connectionDetails.bootstrap_server_urls}
             </Typography>
           </CardContent>
           <CardActions>
