@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import { Grid } from '@material-ui/core'
 // import { makeStyles } from '@material-ui/core/styles'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 import * as connectionActions from '../../store/connections/actionCreator'
 
 import Connection from './Connection'
@@ -15,7 +16,8 @@ class ConnectionListPage extends Component<Props> {
 
   connectEventHandler = connectionDetails => {
     console.log(connectionDetails)
-    const { fetchListOfTopics } = this.props
+    const { fetchListOfTopics, history } = this.props
+    history.push(`/viewer/${connectionDetails.id}`)
     fetchListOfTopics(connectionDetails)
   }
 
@@ -52,4 +54,4 @@ const mapStateToProps = state => {
 export default connect<*, *, *, *, *, *>(
   mapStateToProps,
   connectionActions
-)(ConnectionListPage)
+)(withRouter(ConnectionListPage))

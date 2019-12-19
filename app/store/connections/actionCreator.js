@@ -17,10 +17,9 @@ export function fetchListOfTopics(config) {
     })
     const admin = new kafka.Admin(client)
     admin.listTopics((err, res) => {
-      console.log(res)
       dispatch(
         fetchListOfTopicsSuccess({
-          listOfToipcResponse: res,
+          listOfToipcs: Object.keys(res[1].metadata),
           configuration: config,
         })
       )

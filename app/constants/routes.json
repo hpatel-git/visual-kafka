@@ -1,3 +1,4 @@
 {
-  "CONNECTIONS": "/"
+  "CONNECTIONS": "/",
+  "VIEWER": "/viewer/:id"
 }
