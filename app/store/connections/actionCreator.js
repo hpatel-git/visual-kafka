@@ -3,8 +3,42 @@ import {
   FETCH_CONNECTIONS_SUCCESS,
   ADD_CONNECTION,
   ADD_CONNECTION_SUCCESS,
+  FETCH_LIST_OF_TOPICS,
+  FETCH_LIST_OF_TOPICS_SUCCESS,
 } from './actionType'
 
+const kafka = require('kafka-node')
+
+export function fetchListOfTopics(config) {
+  return dispatch => {
+    dispatch(fetchListOfTopicsRequest())
+    const client = new kafka.KafkaClient({
+      kafkaHost: config.bootstrapServerUrls,
+    })
+    const admin = new kafka.Admin(client)
+    admin.listTopics((err, res) => {
+      console.log(res)
+      dispatch(
+        fetchListOfTopicsSuccess({
+          listOfToipcResponse: res,
+          configuration: config,
+        })
+      )
+    })
+  }
+}
+function fetchListOfTopicsRequest() {
+  return {
+    type: FETCH_LIST_OF_TOPICS,
+  }
+}
+
+function fetchListOfTopicsSuccess(payload) {
+  return {
+    type: FETCH_LIST_OF_TOPICS_SUCCESS,
+    payload,
+  }
+}
 export function fetchConnections() {
   return dispatch => {
     dispatch(fetchConnectionRequest())

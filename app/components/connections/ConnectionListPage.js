@@ -9,20 +9,18 @@ import Connection from './Connection'
 // $FlowFixMe
 class ConnectionListPage extends Component<Props> {
   componentDidMount() {
-    /* console.log('**********')
-    const client = new kafka.KafkaClient({kafkaHost: 'kafka-ttc-app.prod.target.com:9092'});
-    console.log(client)
-    const admin = new kafka.Admin(client)
-    admin.listTopics((err, res) => {
-      console.log('**********topics', res);
-    }) */
     const { fetchConnections } = this.props
     fetchConnections()
   }
 
+  connectEventHandler = connectionDetails => {
+    console.log(connectionDetails)
+    const { fetchListOfTopics } = this.props
+    fetchListOfTopics(connectionDetails)
+  }
+
   render() {
     const { configurations } = this.props
-    console.log(configurations)
     return (
       <Grid
         container
@@ -32,7 +30,11 @@ class ConnectionListPage extends Component<Props> {
       >
         {configurations &&
           configurations.map(config => (
-            <Connection key={config.id} connectionDetails={config} />
+            <Connection
+              key={config.id}
+              connectionDetails={config}
+              connectEventHandler={this.connectEventHandler}
+            />
           ))}
       </Grid>
     )

@@ -16,10 +16,11 @@ import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline'
 
 Connection.propTypes = {
   connectionDetails: PropTypes.shape({
-    connection_name: PropTypes.string.isRequired,
+    connectionName: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
-    bootstrap_server_urls: PropTypes.string.isRequired,
+    bootstrapServerUrls: PropTypes.string.isRequired,
   }).isRequired,
+  connectEventHandler: PropTypes.func.isRequired,
 }
 
 const useStyles = makeStyles({
@@ -38,7 +39,7 @@ const useStyles = makeStyles({
 })
 export default function Connection(props) {
   const classes = useStyles()
-  const { connectionDetails } = props
+  const { connectionDetails, connectEventHandler } = props
   return (
     <>
       <Grid item xs={6} sm={3}>
@@ -49,13 +50,13 @@ export default function Connection(props) {
               color="textSecondary"
               gutterBottom
             >
-              {connectionDetails.connection_name}
+              {connectionDetails.connectionName}
             </Typography>
             <Typography variant="body2" component="p">
               {connectionDetails.description}
             </Typography>
             <Typography variant="body2" component="p">
-              {connectionDetails.bootstrap_server_urls}
+              {connectionDetails.bootstrapServerUrls}
             </Typography>
           </CardContent>
           <CardActions>
@@ -65,6 +66,7 @@ export default function Connection(props) {
                 size="small"
                 className={classes.actionButtons}
                 aria-label="connect"
+                onClick={() => connectEventHandler(connectionDetails)}
               >
                 <PlayCircleOutlineIcon />
               </Fab>
