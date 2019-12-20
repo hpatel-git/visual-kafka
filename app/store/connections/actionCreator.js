@@ -26,6 +26,7 @@ export function fetchListOfTopics(config) {
     })
   }
 }
+
 function fetchListOfTopicsRequest() {
   return {
     type: FETCH_LIST_OF_TOPICS,

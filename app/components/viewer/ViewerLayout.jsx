@@ -14,8 +14,8 @@ import MenuIcon from '@material-ui/icons/Menu'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
-import InboxIcon from '@material-ui/icons/MoveToInbox'
 import PropTypes from 'prop-types'
+import TocIcon from '@material-ui/icons/Toc'
 
 const drawerWidth = 240
 
@@ -85,6 +85,7 @@ export default function ViewerLayout(props) {
   const classes = useStyles()
   const { listOfTopics } = props
   const [open] = React.useState(true)
+  const [searchedTopics, setSearchedTopics] = React.useState(listOfTopics)
 
   return (
     <div className={classes.root}>
@@ -99,7 +100,6 @@ export default function ViewerLayout(props) {
           <IconButton
             color="inherit"
             aria-label="open drawer"
-            // onClick={handleDrawerOpen}
             edge="start"
             className={clsx(classes.menuButton, open && classes.hide)}
           >
@@ -121,7 +121,15 @@ export default function ViewerLayout(props) {
       >
         <div className={classes.drawerHeader}>
           <InputBase
-            placeholder="Search…"
+            placeholder="Search Topic…"
+            // value={topicSearchTerm}
+            onBlur={event =>
+              setSearchedTopics(
+                listOfTopics.filter(item =>
+                  item.toLowerCase().includes(event.target.value.toLowerCase())
+                )
+              )
+            }
             classes={{
               root: classes.inputRoot,
               input: classes.inputInput,
@@ -131,11 +139,11 @@ export default function ViewerLayout(props) {
         </div>
         <Divider />
         <List>
-          {listOfTopics &&
-            listOfTopics.map(topicName => (
+          {searchedTopics &&
+            searchedTopics.map(topicName => (
               <ListItem button key={topicName}>
                 <ListItemIcon>
-                  <InboxIcon />
+                  <TocIcon />
                 </ListItemIcon>
                 <ListItemText primary={topicName} />
               </ListItem>
@@ -148,7 +156,7 @@ export default function ViewerLayout(props) {
         })}
       >
         <div className={classes.drawerHeader} />
-        <Typography paragraph>Topic Content Goes here</Typography>
+        <Typography paragraph>Topic Content Goes here ? </Typography>
       </main>
     </div>
   )
