@@ -83,7 +83,8 @@ export default function ViewerLayout(props) {
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <ViewerHeader selectedTopic={selectedTopic} />
+      {selectedTopic && <ViewerHeader selectedTopic={selectedTopic} />}
+      {!selectedTopic && <ViewerHeader selectedTopic="" />}
       <TopicViewer
         listOfTopics={listOfTopics}
         updateSelectedTopic={updateSelectedTopic}
