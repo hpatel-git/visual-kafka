@@ -9,14 +9,7 @@ import {
 } from './actionType'
 
 export const initialState = {
-  configurations: [
-    {
-      id: '928cbf99-1e38-4d20-888e-cd9a8302b99d',
-      connectionName: 'TTE Production',
-      description: 'Production TTE Kafka',
-      bootstrapServerUrls: '8888:9092',
-    },
-  ],
+  configurations: [],
   isFetching: false,
   activeConnection: undefined,
 }
@@ -61,9 +54,11 @@ export default function connections(state = initialState, action = {}) {
       return newState
     }
     case FETCH_CONNECTIONS_SUCCESS: {
+      const { payload } = action
       const newState = {
         ...state,
         isFetching: false,
+        configurations: payload,
       }
       return newState
     }

@@ -8,6 +8,8 @@ import {
   UPDATE_SELECTED_TOPIC,
 } from './actionType'
 
+const fs = require('fs')
+const path = require('path')
 const kafka = require('kafka-node')
 
 export function fetchListOfTopics(config) {
@@ -49,11 +51,9 @@ function fetchListOfTopicsSuccess(payload) {
 export function fetchConnections() {
   return dispatch => {
     dispatch(fetchConnectionRequest())
-    dispatch(
-      fetchConnectionSuccess({
-        connectionName: 'TTS DEV',
-      })
-    )
+    const config = fs.readFileSync(path.resolve(__dirname, 'settings.json'))
+    console.log(config.toString())
+    dispatch(fetchConnectionSuccess(JSON.parse(config.toString())))
   }
 }
 function fetchConnectionRequest() {
@@ -62,9 +62,10 @@ function fetchConnectionRequest() {
   }
 }
 
-function fetchConnectionSuccess() {
+function fetchConnectionSuccess(configurations) {
   return {
     type: FETCH_CONNECTIONS_SUCCESS,
+    payload: configurations,
   }
 }
 
