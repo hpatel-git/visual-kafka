@@ -2,10 +2,10 @@ import React from 'react'
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
-import Typography from '@material-ui/core/Typography'
 import PropTypes from 'prop-types'
 import TopicViewer from './TopicViewer'
 import ViewerHeader from './ViewerHeader'
+import MessagePublisherPage from '../publisher/MessagePublisherPage'
 
 const drawerWidth = 240
 
@@ -22,26 +22,6 @@ ViewerLayout.propTypes = {
 const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
-  },
-  appBar: {
-    transition: theme.transitions.create(['margin', 'width'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-  },
-  appBarShift: {
-    width: `calc(100% - ${drawerWidth}px)`,
-    marginLeft: drawerWidth,
-    transition: theme.transitions.create(['margin', 'width'], {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
-  hide: {
-    display: 'none',
   },
   drawer: {
     width: drawerWidth,
@@ -95,7 +75,7 @@ export default function ViewerLayout(props) {
         })}
       >
         <div className={classes.drawerHeader} />
-        <Typography paragraph>Topic Content Goes here ? </Typography>
+        {selectedTopic && <MessagePublisherPage />}
       </main>
     </div>
   )
