@@ -95,7 +95,7 @@ export default function ViewerHeader(props) {
           <MenuIcon />
         </IconButton>
         <Typography variant="h6" noWrap>
-          Topic Detail Viewer {selectedTopic && <span> {selectedTopic}</span>}
+          Topic Detail Viewer {selectedTopic && <span> / {selectedTopic}</span>}
         </Typography>
       </Toolbar>
     </AppBar>
