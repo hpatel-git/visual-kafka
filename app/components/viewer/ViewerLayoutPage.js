@@ -17,6 +17,11 @@ class ViewerLayoutPage extends Component<Props> {
     fetchListOfTopics(selectedConfig)
   }
 
+  updateSelectedTopic = topicName => {
+    const { updateSelectedTopic } = this.props
+    updateSelectedTopic(topicName)
+  }
+
   render() {
     const { activeConnection } = this.props
     return (
@@ -27,7 +32,10 @@ class ViewerLayoutPage extends Component<Props> {
         alignItems="flex-start"
       >
         {activeConnection && (
-          <ViewerLayout listOfTopics={activeConnection.listOfTopics} />
+          <ViewerLayout
+            activeConnection={activeConnection}
+            updateSelectedTopic={this.updateSelectedTopic}
+          />
         )}
       </Grid>
     )

@@ -5,6 +5,7 @@ import {
   ADD_CONNECTION_SUCCESS,
   FETCH_LIST_OF_TOPICS,
   FETCH_LIST_OF_TOPICS_SUCCESS,
+  UPDATE_SELECTED_TOPIC,
 } from './actionType'
 
 const kafka = require('kafka-node')
@@ -27,6 +28,12 @@ export function fetchListOfTopics(config) {
   }
 }
 
+export function updateSelectedTopic(topicName) {
+  return {
+    type: UPDATE_SELECTED_TOPIC,
+    payload: topicName,
+  }
+}
 function fetchListOfTopicsRequest() {
   return {
     type: FETCH_LIST_OF_TOPICS,

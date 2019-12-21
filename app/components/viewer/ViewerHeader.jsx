@@ -1,22 +1,21 @@
 import React from 'react'
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
-import CssBaseline from '@material-ui/core/CssBaseline'
+import AppBar from '@material-ui/core/AppBar'
+import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
+import IconButton from '@material-ui/core/IconButton'
+import MenuIcon from '@material-ui/icons/Menu'
 import PropTypes from 'prop-types'
-import TopicViewer from './TopicViewer'
-import ViewerHeader from './ViewerHeader'
 
 const drawerWidth = 240
 
-ViewerLayout.propTypes = {
-  updateSelectedTopic: PropTypes.func.isRequired,
-  activeConnection: PropTypes.shape({
-    listOfTopics: PropTypes.arrayOf(
-      PropTypes.oneOfType([PropTypes.number, PropTypes.string])
-    ).isRequired,
-    selectedTopic: PropTypes.string,
-  }).isRequired,
+ViewerHeader.propTypes = {
+  selectedTopic: PropTypes.string,
+}
+
+ViewerHeader.defaultProps = {
+  selectedTopic: '',
 }
 
 const useStyles = makeStyles(theme => ({
@@ -75,27 +74,30 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-export default function ViewerLayout(props) {
+export default function ViewerHeader(props) {
   const classes = useStyles()
-  const { activeConnection, updateSelectedTopic } = props
-  const { listOfTopics, selectedTopic } = activeConnection
+  const { selectedTopic } = props
 
   return (
-    <div className={classes.root}>
-      <CssBaseline />
-      <ViewerHeader selectedTopic={selectedTopic} />
-      <TopicViewer
-        listOfTopics={listOfTopics}
-        updateSelectedTopic={updateSelectedTopic}
-      />
-      <main
-        className={clsx(classes.content, {
-          [classes.contentShift]: true,
-        })}
-      >
-        <div className={classes.drawerHeader} />
-        <Typography paragraph>Topic Content Goes here ? </Typography>
-      </main>
-    </div>
+    <AppBar
+      position="fixed"
+      className={clsx(classes.appBar, {
+        [classes.appBarShift]: true,
+      })}
+    >
+      <Toolbar>
+        <IconButton
+          color="inherit"
+          aria-label="open drawer"
+          edge="start"
+          className={clsx(classes.menuButton, true && classes.hide)}
+        >
+          <MenuIcon />
+        </IconButton>
+        <Typography variant="h6" noWrap>
+          Topic Detail Viewer {selectedTopic && <span> {selectedTopic}</span>}
+        </Typography>
+      </Toolbar>
+    </AppBar>
   )
 }

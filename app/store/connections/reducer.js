@@ -5,6 +5,7 @@ import {
   ADD_CONNECTION_SUCCESS,
   FETCH_LIST_OF_TOPICS,
   FETCH_LIST_OF_TOPICS_SUCCESS,
+  UPDATE_SELECTED_TOPIC,
 } from './actionType'
 
 export const initialState = {
@@ -13,7 +14,7 @@ export const initialState = {
       id: '928cbf99-1e38-4d20-888e-cd9a8302b99d',
       connectionName: 'TTE Production',
       description: 'Production TTE Kafka',
-      bootstrapServerUrls: '****:9092',
+      bootstrapServerUrls: 'kafka-ttc-app.prod.target.com:9092',
     },
   ],
   isFetching: false,
@@ -26,6 +27,16 @@ export default function connections(state = initialState, action = {}) {
       const newState = {
         ...state,
         isFetching: true,
+      }
+      return newState
+    }
+    case UPDATE_SELECTED_TOPIC: {
+      const { payload } = action
+      const newState = {
+        ...state,
+        activeConnection: {
+          selectedTopic: payload,
+        },
       }
       return newState
     }
