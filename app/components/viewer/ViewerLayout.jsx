@@ -59,7 +59,6 @@ export default function ViewerLayout(props) {
   const classes = useStyles()
   const { activeConnection, updateSelectedTopic } = props
   const { listOfTopics, selectedTopic } = activeConnection
-
   return (
     <div className={classes.root}>
       <CssBaseline />

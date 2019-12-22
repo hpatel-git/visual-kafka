@@ -4,7 +4,7 @@ import { Grid } from '@material-ui/core'
 // import { makeStyles } from '@material-ui/core/styles'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import * as connectionActions from '../../store/connections/actionCreator'
+import * as viewerActions from '../../store/viewer/actionCreator'
 
 import ViewerLayout from './ViewerLayout'
 // $FlowFixMe
@@ -43,8 +43,9 @@ class ViewerLayoutPage extends Component<Props> {
 }
 
 const mapStateToProps = state => {
-  const { connections } = state
-  const { configurations, activeConnection } = connections
+  const { connections, viewer } = state
+  const { configurations } = connections
+  const { activeConnection } = viewer
   return {
     configurations,
     activeConnection,
@@ -53,5 +54,5 @@ const mapStateToProps = state => {
 
 export default connect<*, *, *, *, *, *>(
   mapStateToProps,
-  connectionActions
+  viewerActions
 )(withRouter(ViewerLayoutPage))

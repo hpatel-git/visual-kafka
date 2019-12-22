@@ -3,10 +3,12 @@ import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
+import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
-import MenuIcon from '@material-ui/icons/Menu'
+import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 
 const drawerWidth = 240
 
@@ -46,12 +48,14 @@ const useStyles = makeStyles(theme => ({
     width: drawerWidth,
     flexShrink: 0,
   },
+  logoutButton: {
+    color: 'white',
+  },
 }))
 
 export default function ViewerHeader(props) {
   const classes = useStyles()
   const { selectedTopic } = props
-
   return (
     <AppBar
       position="fixed"
@@ -60,17 +64,25 @@ export default function ViewerHeader(props) {
       })}
     >
       <Toolbar>
-        <IconButton
-          color="inherit"
-          aria-label="open drawer"
-          edge="start"
-          className={clsx(classes.menuButton, true && classes.hide)}
-        >
-          <MenuIcon />
-        </IconButton>
-        <Typography variant="h6" noWrap>
-          Topic Detail Viewer {selectedTopic && <span> / {selectedTopic}</span>}
-        </Typography>
+        <Grid justify="space-between" alignItems="center" container>
+          <Grid item>
+            <Typography variant="h6" noWrap>
+              Topic Detail Viewer
+              {selectedTopic && <span> / {selectedTopic}</span>}
+            </Typography>
+          </Grid>
+          <Grid item>
+            <Link to="/">
+              <IconButton
+                aria-label="Logout"
+                className={classes.logoutButton}
+                color="primary"
+              >
+                <ExitToAppIcon />
+              </IconButton>
+            </Link>
+          </Grid>
+        </Grid>
       </Toolbar>
     </AppBar>
   )

@@ -5,13 +5,12 @@ import { routerMiddleware, routerActions } from 'connected-react-router'
 import { createLogger } from 'redux-logger'
 import createRootReducer from './index'
 import * as connectionActions from './connections/actionCreator'
-import type { connectionStateType } from './connections/actionType'
+import * as viewerActions from './viewer/actionCreator'
 
 const history = createHashHistory()
-
 const rootReducer = createRootReducer(history)
 
-const configureStore = (initialState?: connectionStateType) => {
+const configureStore = () => {
   // Redux Configuration
   const middleware = []
   const enhancers = []
@@ -36,6 +35,7 @@ const configureStore = (initialState?: connectionStateType) => {
 
   // Redux DevTools Configuration
   const actionCreators = {
+    ...viewerActions,
     ...connectionActions,
     ...routerActions,
   }
@@ -54,7 +54,7 @@ const configureStore = (initialState?: connectionStateType) => {
   const enhancer = composeEnhancers(...enhancers)
 
   // Create Store
-  const store = createStore(rootReducer, initialState, enhancer)
+  const store = createStore(rootReducer, enhancer)
 
   if (module.hot) {
     module.hot.accept(

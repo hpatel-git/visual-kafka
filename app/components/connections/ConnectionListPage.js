@@ -1,22 +1,25 @@
 // @flow
 import React, { Component } from 'react'
 import { Grid } from '@material-ui/core'
+import { bindActionCreators } from 'redux'
 // import { makeStyles } from '@material-ui/core/styles'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import * as connectionActions from '../../store/connections/actionCreator'
+import * as connectionActionsCreator from '../../store/connections/actionCreator'
+import * as viewerActionsCreator from '../../store/viewer/actionCreator'
 
 import Connection from './Connection'
 // $FlowFixMe
 class ConnectionListPage extends Component<Props> {
   componentDidMount() {
-    const { fetchConnections } = this.props
+    const { connectionActions } = this.props
+    const { fetchConnections } = connectionActions
     fetchConnections()
   }
 
   connectEventHandler = connectionDetails => {
-    console.log(connectionDetails)
-    const { fetchListOfTopics, history } = this.props
+    const { viewerActions, history } = this.props
+    const { fetchListOfTopics } = viewerActions
     history.push(`/viewer/${connectionDetails.id}`)
     fetchListOfTopics(connectionDetails)
   }
@@ -50,8 +53,14 @@ const mapStateToProps = state => {
     configurations,
   }
 }
+const mapDispatchToProps = dispatch => {
+  return {
+    connectionActions: bindActionCreators(connectionActionsCreator, dispatch),
+    viewerActions: bindActionCreators(viewerActionsCreator, dispatch),
+  }
+}
 
 export default connect<*, *, *, *, *, *>(
   mapStateToProps,
-  connectionActions
+  mapDispatchToProps
 )(withRouter(ConnectionListPage))

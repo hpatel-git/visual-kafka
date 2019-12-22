@@ -3,49 +3,15 @@ import {
   FETCH_CONNECTIONS_SUCCESS,
   ADD_CONNECTION,
   ADD_CONNECTION_SUCCESS,
-  FETCH_LIST_OF_TOPICS,
-  FETCH_LIST_OF_TOPICS_SUCCESS,
-  UPDATE_SELECTED_TOPIC,
 } from './actionType'
 
 export const initialState = {
   configurations: [],
   isFetching: false,
-  activeConnection: undefined,
 }
 
 export default function connections(state = initialState, action = {}) {
   switch (action.type) {
-    case FETCH_LIST_OF_TOPICS: {
-      const newState = {
-        ...state,
-        isFetching: true,
-      }
-      return newState
-    }
-    case UPDATE_SELECTED_TOPIC: {
-      const { payload } = action
-      const newState = {
-        ...state,
-        activeConnection: {
-          ...state.activeConnection,
-          selectedTopic: payload,
-        },
-      }
-      return newState
-    }
-    case FETCH_LIST_OF_TOPICS_SUCCESS: {
-      const { payload } = action
-      const newState = {
-        ...state,
-        isFetching: false,
-        activeConnection: {
-          listOfTopics: payload.listOfToipcs,
-          configuration: payload.configuration,
-        },
-      }
-      return newState
-    }
     case FETCH_CONNECTIONS: {
       const newState = {
         ...state,

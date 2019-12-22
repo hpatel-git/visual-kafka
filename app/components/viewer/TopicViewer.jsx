@@ -11,7 +11,7 @@ import PropTypes from 'prop-types'
 import StorageIcon from '@material-ui/icons/Storage'
 import ClearIcon from '@material-ui/icons/Clear'
 
-const drawerWidth = 240
+const drawerWidth = 250
 
 TopicViewer.propTypes = {
   updateSelectedTopic: PropTypes.func.isRequired,
@@ -58,15 +58,17 @@ export default function TopicViewer(props) {
     >
       <div className={classes.drawerHeader}>
         <InputBase
-          placeholder="Search Topic…"
-          // value={topicSearchTerm}
-          onBlur={event =>
-            setSearchedTopics(
-              listOfTopics.filter(item =>
-                item.toLowerCase().includes(event.target.value.toLowerCase())
+          placeholder="Hit Enter to Search"
+          helpertext="Topic Name"
+          onKeyPress={event => {
+            if (event.key === 'Enter') {
+              setSearchedTopics(
+                listOfTopics.filter(item =>
+                  item.toLowerCase().includes(event.target.value.toLowerCase())
+                )
               )
-            )
-          }
+            }
+          }}
           classes={{
             root: classes.inputRoot,
             input: classes.inputInput,

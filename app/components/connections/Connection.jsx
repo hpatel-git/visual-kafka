@@ -26,6 +26,7 @@ Connection.propTypes = {
 const useStyles = makeStyles({
   card: {
     minWidth: 275,
+    margin: '20px',
   },
   actionButtons: {
     marginLeft: 'auto',

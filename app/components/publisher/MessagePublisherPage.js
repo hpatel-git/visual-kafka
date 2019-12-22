@@ -27,8 +27,8 @@ class MessagePublisherPage extends Component<Props> {
 }
 
 const mapStateToProps = state => {
-  const { connections } = state
-  const { activeConnection } = connections
+  const { viewer } = state
+  const { activeConnection } = viewer
   return {
     activeConnection,
   }
