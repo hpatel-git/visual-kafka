@@ -6,6 +6,7 @@ import { createLogger } from 'redux-logger'
 import createRootReducer from './index'
 import * as connectionActions from './connections/actionCreator'
 import * as viewerActions from './viewer/actionCreator'
+import * as publisherActions from './publisher/actionCreator'
 
 const history = createHashHistory()
 const rootReducer = createRootReducer(history)
@@ -35,6 +36,7 @@ const configureStore = () => {
 
   // Redux DevTools Configuration
   const actionCreators = {
+    ...publisherActions,
     ...viewerActions,
     ...connectionActions,
     ...routerActions,

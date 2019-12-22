@@ -9,6 +9,7 @@ import Button from '@material-ui/core/Button'
 const drawerWidth = 240
 
 MessagePublisher.propTypes = {
+  message: PropTypes.string.isRequired,
   activeConnection: PropTypes.shape({
     listOfTopics: PropTypes.arrayOf(
       PropTypes.oneOfType([PropTypes.number, PropTypes.string])
@@ -19,6 +20,9 @@ MessagePublisher.propTypes = {
       bootstrapServerUrls: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
+  publishMessageHandler: PropTypes.func.isRequired,
+  updateMessageHandler: PropTypes.func.isRequired,
+  clearMessageHandler: PropTypes.func.isRequired,
 }
 
 const useStyles = makeStyles(theme => ({
@@ -59,7 +63,13 @@ const useStyles = makeStyles(theme => ({
 
 export default function MessagePublisher(props) {
   const classes = useStyles()
-  const { activeConnection } = props
+  const {
+    activeConnection,
+    publishMessageHandler,
+    updateMessageHandler,
+    clearMessageHandler,
+    message,
+  } = props
   const { configuration } = activeConnection
   const { connectionName, bootstrapServerUrls } = configuration
 
@@ -83,8 +93,11 @@ export default function MessagePublisher(props) {
           <TextareaAutosize
             aria-label="minimum height"
             rowsMin={30}
+            defaultValue={message}
+            value={message}
             className={classes.fullWidth}
             placeholder="Please provide your message here"
+            onChange={event => updateMessageHandler(event.target.value)}
           />
         </Grid>
         <Grid item xs>
@@ -95,7 +108,11 @@ export default function MessagePublisher(props) {
             alignItems="flex-start"
           >
             <Grid item xs>
-              <Button variant="contained" color="primary">
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => publishMessageHandler()}
+              >
                 SEND
               </Button>
             </Grid>
@@ -103,6 +120,7 @@ export default function MessagePublisher(props) {
               <Button
                 variant="contained"
                 color="primary"
+                onClick={() => clearMessageHandler()}
                 className={classes.leftMargin}
               >
                 CLEAR

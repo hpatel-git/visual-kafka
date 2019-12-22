@@ -5,16 +5,21 @@ import { Grid } from '@material-ui/core'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import * as viewerActions from '../../store/viewer/actionCreator'
-
+import routes from '../../constants/routes.json'
 import ViewerLayout from './ViewerLayout'
+
 // $FlowFixMe
 class ViewerLayoutPage extends Component<Props> {
   componentDidMount() {
-    const { configurations, fetchListOfTopics, match } = this.props
+    const { configurations, fetchListOfTopics, match, history } = this.props
     const selectedConfig = configurations.filter(
       config => config.id === match.params.id
     )[0]
-    fetchListOfTopics(selectedConfig)
+    if (selectedConfig === undefined) {
+      history.push(routes.CONNECTIONS)
+    } else {
+      fetchListOfTopics(selectedConfig)
+    }
   }
 
   updateSelectedTopic = topicName => {
