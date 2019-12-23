@@ -61,12 +61,13 @@ export default function ViewerLayout(props) {
   const classes = useStyles()
   const { activeConnection, updateSelectedTopic } = props
   const { listOfTopics, selectedTopic, isFetching } = activeConnection
+  const defaultHeader = `(${listOfTopics.length})`
   return (
     <div className={classes.root}>
       <CssBaseline />
       {isFetching && <CircularProgress disableShrink />}
       {selectedTopic && <ViewerHeader selectedTopic={selectedTopic} />}
-      {!selectedTopic && <ViewerHeader selectedTopic="" />}
+      {!selectedTopic && <ViewerHeader selectedTopic={defaultHeader} />}
       <TopicViewer
         listOfTopics={listOfTopics}
         updateSelectedTopic={updateSelectedTopic}

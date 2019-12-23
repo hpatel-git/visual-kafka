@@ -82,6 +82,7 @@ export default function MessagePublisher(props) {
         alignItems="flex-start"
       >
         <Grid item xs>
+          <div id="errorDiv" />
           <Typography variant="h6" paragraph>
             Message Publisher
           </Typography>
@@ -93,7 +94,6 @@ export default function MessagePublisher(props) {
           <TextareaAutosize
             aria-label="minimum height"
             rowsMin={30}
-            defaultValue={message}
             value={message}
             className={classes.fullWidth}
             placeholder="Please provide your message here"

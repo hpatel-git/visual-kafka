@@ -1,0 +1,6 @@
+{
+  "SUCCESS": "success",
+  "ERROR": "error",
+  "INFO": "info",
+  "WARNING": "warning"
+}

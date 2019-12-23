@@ -45,7 +45,7 @@ export default function TopicViewer(props) {
   const { listOfTopics, updateSelectedTopic } = props
   const [open] = React.useState(true)
   const [searchedTopics, setSearchedTopics] = React.useState(listOfTopics)
-
+  const placeHolderText = `Hit Enter to Search`
   return (
     <Drawer
       className={classes.drawer}
@@ -58,7 +58,8 @@ export default function TopicViewer(props) {
     >
       <div className={classes.drawerHeader}>
         <InputBase
-          placeholder="Hit Enter to Search"
+          autoFocus
+          placeholder={placeHolderText}
           helpertext="Topic Name"
           onKeyPress={event => {
             if (event.key === 'Enter') {

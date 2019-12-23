@@ -1,16 +1,20 @@
 // @flow
 import React, { Component } from 'react'
 import { Grid } from '@material-ui/core'
+import { render } from 'react-dom'
 import CircularProgress from '@material-ui/core/CircularProgress'
 // import { makeStyles } from '@material-ui/core/styles'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import * as publisherActions from '../../store/publisher/actionCreator'
 import MessagePublisher from './MessagePublisher'
-
+import AppNotification from '../notification/AppNotification'
+import appMessages from '../../constants/appMessages.json'
+import variantType from '../../constants/variantType.json'
 // $FlowFixMe
 class MessagePublisherPage extends Component<Props> {
   publishMessageHandler = () => {
+    console.log(this.appNotificationElement)
     const {
       publishMessage,
       activeConnection,
@@ -21,8 +25,22 @@ class MessagePublisherPage extends Component<Props> {
     try {
       JSON.parse(message)
       publishMessage(configuration, selectedTopic, message)
+      this.showNotification(appMessages.PUBLISH_SUCCESS, variantType.SUCCESS)
     } catch (e) {
+      this.showNotification(appMessages.INVALID_JSON, variantType.ERROR)
       updatePublishMessage('')
+    }
+  }
+
+  showNotification = (notificationMessage, variant) => {
+    const notification = (
+      <AppNotification message={notificationMessage} variant={variant} />
+    )
+    const errorDiv = document.getElementById('errorDiv')
+    if (errorDiv !== null) {
+      const wrapperDiv = document.createElement('div')
+      errorDiv.appendChild(wrapperDiv)
+      render(notification, wrapperDiv)
     }
   }
 
