@@ -14,7 +14,6 @@ import variantType from '../../constants/variantType.json'
 // $FlowFixMe
 class MessagePublisherPage extends Component<Props> {
   publishMessageHandler = () => {
-    console.log(this.appNotificationElement)
     const {
       publishMessage,
       activeConnection,
@@ -24,9 +23,12 @@ class MessagePublisherPage extends Component<Props> {
     const { configuration, selectedTopic } = activeConnection
     try {
       JSON.parse(message)
-      publishMessage(configuration, selectedTopic, message)
-      this.showNotification(appMessages.PUBLISH_SUCCESS, variantType.SUCCESS)
+      const promise = publishMessage(configuration, selectedTopic, message)
+      promise
+        .then(result => this.showNotification(result, variantType.SUCCESS))
+        .catch(err => this.showNotification(err, variantType.ERROR))
     } catch (e) {
+      console.log('Error while publishing', e.stack)
       this.showNotification(appMessages.INVALID_JSON, variantType.ERROR)
       updatePublishMessage('')
     }

@@ -27,12 +27,7 @@ class ConnectionListPage extends Component<Props> {
   render() {
     const { configurations } = this.props
     return (
-      <Grid
-        container
-        direction="row"
-        justify="flex-start"
-        alignItems="flex-start"
-      >
+      <Grid container spacing={2}>
         {configurations &&
           configurations.map(config => (
             <Connection

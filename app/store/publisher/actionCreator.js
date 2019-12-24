@@ -7,12 +7,13 @@ import {
 
 const kafka = require('kafka-node')
 
-export function publishMessage(config, selectedTopic, message) {
-  return dispatch => {
+export const publishMessage = (config, selectedTopic, message) => dispatch => {
+  const promise = new Promise((resolve, reject) => {
     dispatch(publishMessageRequest())
     const client = new kafka.KafkaClient({
       kafkaHost: config.bootstrapServerUrls,
     })
+
     const producer = new kafka.Producer(client)
     const uniqueId =
       Math.random()
@@ -29,12 +30,15 @@ export function publishMessage(config, selectedTopic, message) {
       producer.send(payload, (err, data) => {
         console.log(data)
         dispatch(publishMessageSuccess())
+        resolve(`Message Published successfully to ${selectedTopic}`)
       })
       producer.on('error', err => {
         dispatch(showNotification(err))
+        reject(new Error(`Error while publishing message to ${selectedTopic}`))
       })
     })
-  }
+  })
+  return promise
 }
 
 function showNotification(err) {

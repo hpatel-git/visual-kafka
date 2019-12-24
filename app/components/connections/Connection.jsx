@@ -23,10 +23,10 @@ Connection.propTypes = {
   connectEventHandler: PropTypes.func.isRequired,
 }
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   card: {
-    minWidth: 275,
-    margin: '20px',
+    height: 155,
+    marginRight: theme.spacing(2),
   },
   actionButtons: {
     marginLeft: 'auto',
@@ -37,13 +37,13 @@ const useStyles = makeStyles({
   pos: {
     marginBottom: 12,
   },
-})
+}))
 export default function Connection(props) {
   const classes = useStyles()
   const { connectionDetails, connectEventHandler } = props
   return (
     <>
-      <Grid item xs={6} sm={3}>
+      <Grid item xs={3}>
         <Card className={classes.card}>
           <CardContent>
             <Typography
