@@ -1,13 +1,23 @@
 // @flow
 import React, { Component } from 'react'
 import { Grid } from '@material-ui/core'
+import CircularProgress from '@material-ui/core/CircularProgress'
 // import { makeStyles } from '@material-ui/core/styles'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
+import { withStyles } from '@material-ui/core/styles'
 import * as viewerActions from '../../store/viewer/actionCreator'
 import routes from '../../constants/routes.json'
 import ViewerLayout from './ViewerLayout'
 
+const styles = theme => ({
+  root: {
+    padding: theme.spacing(50, 80),
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+  },
+})
 // $FlowFixMe
 class ViewerLayoutPage extends Component<Props> {
   componentDidMount() {
@@ -28,7 +38,7 @@ class ViewerLayoutPage extends Component<Props> {
   }
 
   render() {
-    const { activeConnection } = this.props
+    const { activeConnection, isFetching, classes } = this.props
     return (
       <Grid
         container
@@ -42,6 +52,13 @@ class ViewerLayoutPage extends Component<Props> {
             updateSelectedTopic={this.updateSelectedTopic}
           />
         )}
+        {isFetching && (
+          <Grid item>
+            <div className={classes.root}>
+              <CircularProgress />
+            </div>
+          </Grid>
+        )}
       </Grid>
     )
   }
@@ -50,14 +67,15 @@ class ViewerLayoutPage extends Component<Props> {
 const mapStateToProps = state => {
   const { connections, viewer } = state
   const { configurations } = connections
-  const { activeConnection } = viewer
+  const { activeConnection, isFetching } = viewer
   return {
     configurations,
     activeConnection,
+    isFetching,
   }
 }
 
 export default connect<*, *, *, *, *, *>(
   mapStateToProps,
   viewerActions
-)(withRouter(ViewerLayoutPage))
+)(withRouter(withStyles(styles)(ViewerLayoutPage)))

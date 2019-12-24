@@ -29,7 +29,9 @@ class MessagePublisherPage extends Component<Props> {
         .catch(err => this.showNotification(err, variantType.ERROR))
     } catch (e) {
       console.log('Error while publishing', e.stack)
-      this.showNotification(appMessages.INVALID_JSON, variantType.ERROR)
+      if (e.name === 'SyntaxError') {
+        this.showNotification(appMessages.INVALID_JSON, variantType.ERROR)
+      }
       updatePublishMessage('')
     }
   }

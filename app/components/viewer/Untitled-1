@@ -1,0 +1,9 @@
+curl --request POST \
+  --url 'https://vault-uploader-api-stg.target.com/vault_digital_assets/v1/url_uploads?key=a24112f6e9552cd39ab116226aa85271ef80bf31' \
+  --header 'authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6IkUuU1RHLjAxRFFEM0hEUjhEMzVDIn0.ew0KICAidXNlcm5hbWUiOiAiWjAwMktRViIsDQogICJleHAiOiAxNTc3MjM3ODE1LA0KICAiaWF0IjogMTU3NzIwOTAxNSwNCiAgInNjb3BlIjogWyJvcGVuaWQiLCAicHJvZmlsZSJdLA0KICAiY2xpZW50X2lkIjogInBpcGVsaW5lX25wZV9pbSIsDQogICJpc3MiOiAiaHR0cHM6Ly9vYXV0aC5pYW0ucGVyZi50YXJnZXQuY29tIiwNCiAgImFhbCI6ICIxIiwNCiAgImp0aSI6ICI5NDNjYjI2OS0xZjEwLTRmM2ItYjA1Yy0yZTU2YjliZDYxYWYiLA0KICAia2lkIjogIkUuU1RHLjAxRFFEM0hEUjhEMzVDIiwNCiAgImRpciI6ICJhZCINCn0.Yo4upKncyBfdPU3ilr0N2Z9bf7PwI1WVKDjwyB2IrllWAKs9xSRwWciM3JARr62_UcHPlWIcqVgvu-EbOMw4cnkHiNEQbB3nzlowhao4-4QSMdmxtV4e1aqPEaGB8N1J0WmvXbI16sWt94BD-sAOcraT7GdhU9y7O7dG7OFEkA-c3DIu7Jbn-fUP0sU_aEXVSsZIzBUjTQQcy7DwwtaVapqTwxpa9_y1Ye_vusp9M3A7YWBmjvhBPFOKBLZyY5cZTyHG211zy2jhCDhXq7vdpxydlcUF_6uDztftFoJBY6eHa5qM6lQ8jNOgRvzXEFi98gqf_mhDlQdE0sr3k8DDmg' \
+  --header 'content-type: application/json' \
+  --data '{
+	"source": "http://ftp.flashfurniture.com/multipak/4-YB-YJ806H-GG_inset3.jpg",
+	"targets": ["INTERNAL_INSTANT"],
+	"metadata": "{\"test\": \"test\"}"
+}'

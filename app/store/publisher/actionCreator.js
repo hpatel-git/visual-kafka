@@ -4,6 +4,7 @@ import {
   SHOW_NOTIFICATION,
   UPDATE_PUBLISH_MESSAGE,
 } from './actionType'
+import appMessages from '../../constants/appMessages.json'
 
 const kafka = require('kafka-node')
 
@@ -28,13 +29,13 @@ export const publishMessage = (config, selectedTopic, message) => dispatch => {
     ]
     producer.on('ready', () => {
       producer.send(payload, (err, data) => {
-        console.log(data)
+        console.log(err, data)
         dispatch(publishMessageSuccess())
-        resolve(`Message Published successfully to ${selectedTopic}`)
+        resolve(`${appMessages.PUBLISH_SUCCESS} to ${selectedTopic}`)
       })
       producer.on('error', err => {
         dispatch(showNotification(err))
-        reject(new Error(`Error while publishing message to ${selectedTopic}`))
+        reject(new Error(`${appMessages.PUBLISH_FAILURE} to ${selectedTopic}`))
       })
     })
   })

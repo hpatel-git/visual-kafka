@@ -18,10 +18,8 @@ class ConnectionListPage extends Component<Props> {
   }
 
   connectEventHandler = connectionDetails => {
-    const { viewerActions, history } = this.props
-    const { fetchListOfTopics } = viewerActions
+    const { history } = this.props
     history.push(`/viewer/${connectionDetails.id}`)
-    fetchListOfTopics(connectionDetails)
   }
 
   render() {
