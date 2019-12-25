@@ -6,9 +6,8 @@ import {
 } from './actionType'
 
 const fs = require('fs')
-const path = require('path')
 
-const settingFileLocation = path.resolve(__dirname, 'settings.json')
+const settingFileLocation = 'settings.json'
 
 export function fetchConnections() {
   return dispatch => {
@@ -17,7 +16,7 @@ export function fetchConnections() {
       const config = fs.readFileSync(settingFileLocation)
       dispatch(fetchConnectionSuccess(JSON.parse(config.toString())))
     } else {
-      dispatch(fetchConnectionSuccess(undefined))
+      dispatch(fetchConnectionSuccess([]))
     }
   }
 }
@@ -40,7 +39,12 @@ export function addConnections(newConnection) {
     console.log(getState())
     const { connections } = getState()
     const { configurations } = connections
-    const updatedList = [...configurations, newConnection]
+    let updatedList = []
+    if (configurations) {
+      updatedList = [...configurations, newConnection]
+    } else {
+      updatedList = [newConnection]
+    }
     const jsonString = JSON.stringify(updatedList, null, '  ')
     dispatch(addConnectionRequest())
     fs.writeFileSync(settingFileLocation, jsonString, {
