@@ -41,7 +41,7 @@ export function addConnections(newConnection) {
     const { connections } = getState()
     const { configurations } = connections
     const updatedList = [...configurations, newConnection]
-    const jsonString = JSON.stringify(updatedList)
+    const jsonString = JSON.stringify(updatedList, null, '  ')
     dispatch(addConnectionRequest())
     fs.writeFileSync(settingFileLocation, jsonString, {
       encoding: 'utf8',
