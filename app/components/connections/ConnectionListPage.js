@@ -9,6 +9,7 @@ import * as connectionActionsCreator from '../../store/connections/actionCreator
 import * as viewerActionsCreator from '../../store/viewer/actionCreator'
 
 import Connection from './Connection'
+import AddConnectionContainer from './AddConnectionContainer'
 // $FlowFixMe
 class ConnectionListPage extends Component<Props> {
   componentDidMount() {
@@ -26,6 +27,7 @@ class ConnectionListPage extends Component<Props> {
     const { configurations } = this.props
     return (
       <Grid container spacing={2}>
+        <AddConnectionContainer />
         {configurations &&
           configurations.map(config => (
             <Connection

@@ -269,6 +269,7 @@
     "electron-debug": "^3.0.1",
     "electron-log": "^4.0.0",
     "electron-updater": "^4.2.0",
+    "formik": "^2.0.8",
     "history": "^4.10.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
@@ -280,7 +281,8 @@
     "redux-devtools-extension": "^2.13.8",
     "redux-immutable-state-invariant": "^2.1.0",
     "redux-thunk": "^2.3.0",
-    "source-map-support": "^0.5.16"
+    "source-map-support": "^0.5.16",
+    "uuid": "^3.3.3"
   },
   "devEngines": {
     "node": ">=7.x",

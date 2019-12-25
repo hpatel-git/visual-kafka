@@ -34,14 +34,10 @@ function fetchConnectionSuccess(configurations) {
   }
 }
 
-export function addConnections() {
+export function addConnections(newConnection) {
   return dispatch => {
     dispatch(addConnectionRequest())
-    dispatch(
-      addConnectionSuccess({
-        connectionName: 'TTS DEV',
-      })
-    )
+    dispatch(addConnectionSuccess(newConnection))
   }
 }
 function addConnectionRequest() {
@@ -50,9 +46,9 @@ function addConnectionRequest() {
   }
 }
 
-function addConnectionSuccess(data) {
+function addConnectionSuccess(newConnection) {
   return {
     type: ADD_CONNECTION_SUCCESS,
-    payload: data,
+    payload: newConnection,
   }
 }

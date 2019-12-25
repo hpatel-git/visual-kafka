@@ -40,7 +40,7 @@ export default function connections(state = initialState, action = {}) {
       const newState = {
         ...state,
         isFetching: false,
-        connections: [...state.connections, payload],
+        configurations: [...state.configurations, payload],
       }
       return newState
     }

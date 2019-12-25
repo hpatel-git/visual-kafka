@@ -17,7 +17,7 @@ import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline'
 Connection.propTypes = {
   connectionDetails: PropTypes.shape({
     connectionName: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
+    connectionDesc: PropTypes.string.isRequired,
     bootstrapServerUrls: PropTypes.string.isRequired,
   }).isRequired,
   connectEventHandler: PropTypes.func.isRequired,
@@ -54,7 +54,7 @@ export default function Connection(props) {
               {connectionDetails.connectionName}
             </Typography>
             <Typography variant="body2" component="p">
-              {connectionDetails.description}
+              {connectionDetails.connectionDesc}
             </Typography>
             <Typography variant="body2" component="p">
               {connectionDetails.bootstrapServerUrls}
