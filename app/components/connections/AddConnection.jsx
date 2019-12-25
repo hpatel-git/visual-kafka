@@ -23,7 +23,7 @@ const useStyles = makeStyles(theme => ({
 }))
 export default function AddConnection(props) {
   const classes = useStyles()
-  const [open, setOpen] = React.useState(true)
+  const [open, setOpen] = React.useState(false)
   const { addConnectionHandler } = props
 
   const handleClickOpen = () => {
