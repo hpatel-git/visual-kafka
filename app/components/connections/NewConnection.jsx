@@ -12,6 +12,12 @@ import { makeStyles } from '@material-ui/core/styles'
 
 const uuidv4 = require('uuid/v4')
 
+const initialFormValues = {
+  connectionName: '',
+  bootstrapServerUrls: '',
+  connectionDesc: '',
+}
+
 const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
@@ -57,11 +63,7 @@ export default function NewConnection(props) {
           <span className={classes.titleColor}>Add New Connection</span>
         </DialogTitle>
         <Formik
-          initialValues={{
-            connectionName: '',
-            bootstrapServerUrls: '',
-            connectionDesc: '',
-          }}
+          initialValues={initialFormValues}
           validate={values => {
             const errors = {}
             if (!values.connectionName) {
@@ -75,11 +77,12 @@ export default function NewConnection(props) {
             }
             return errors
           }}
-          onSubmit={(values, { setSubmitting }) => {
+          onSubmit={(values, { setSubmitting, resetForm }) => {
             const newConnection = values
             newConnection.id = uuidv4()
             handleSave(newConnection)
             setSubmitting(false)
+            resetForm(initialFormValues)
           }}
         >
           {({

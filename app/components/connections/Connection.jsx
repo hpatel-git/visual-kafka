@@ -13,6 +13,12 @@ import {
 import EditIcon from '@material-ui/icons/Edit'
 import DeleteIcon from '@material-ui/icons/Delete'
 import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline'
+import Button from '@material-ui/core/Button'
+import Dialog from '@material-ui/core/Dialog'
+import DialogActions from '@material-ui/core/DialogActions'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogContentText from '@material-ui/core/DialogContentText'
+import DialogTitle from '@material-ui/core/DialogTitle'
 
 Connection.propTypes = {
   connectionDetails: PropTypes.shape({
@@ -39,14 +45,30 @@ const useStyles = makeStyles(theme => ({
   pos: {
     marginBottom: 12,
   },
+  titleColor: {
+    color: 'black',
+    textColor: '#fff',
+    fontColor: 'black',
+  },
 }))
 export default function Connection(props) {
+  const [open, setOpen] = React.useState(false)
+
+  const handleClickOpen = () => {
+    setOpen(true)
+  }
+
+  const handleClose = () => {
+    setOpen(false)
+  }
+
+  const handleAggree = connectionId => {
+    setOpen(false)
+    const { deleteConnectionHandler } = props
+    deleteConnectionHandler(connectionId)
+  }
   const classes = useStyles()
-  const {
-    connectionDetails,
-    connectEventHandler,
-    deleteConnectionHandler,
-  } = props
+  const { connectionDetails, connectEventHandler } = props
   return (
     <>
       <Grid item xs={3}>
@@ -93,7 +115,7 @@ export default function Connection(props) {
                 color="primary"
                 size="small"
                 aria-label="edit"
-                onClick={() => deleteConnectionHandler(connectionDetails.id)}
+                onClick={handleClickOpen}
               >
                 <DeleteIcon />
               </Fab>
@@ -101,6 +123,33 @@ export default function Connection(props) {
           </CardActions>
         </Card>
       </Grid>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          <span className={classes.titleColor}>Confirmation</span>
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Are you sure you want to delete connection ?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Disagree
+          </Button>
+          <Button
+            onClick={() => handleAggree(connectionDetails.id)}
+            color="primary"
+            autoFocus
+          >
+            Agree
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   )
 }
