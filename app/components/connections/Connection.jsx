@@ -16,11 +16,13 @@ import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline'
 
 Connection.propTypes = {
   connectionDetails: PropTypes.shape({
+    id: PropTypes.string.isRequired,
     connectionName: PropTypes.string.isRequired,
     connectionDesc: PropTypes.string.isRequired,
     bootstrapServerUrls: PropTypes.string.isRequired,
   }).isRequired,
   connectEventHandler: PropTypes.func.isRequired,
+  deleteConnectionHandler: PropTypes.func.isRequired,
 }
 
 const useStyles = makeStyles(theme => ({
@@ -40,7 +42,11 @@ const useStyles = makeStyles(theme => ({
 }))
 export default function Connection(props) {
   const classes = useStyles()
-  const { connectionDetails, connectEventHandler } = props
+  const {
+    connectionDetails,
+    connectEventHandler,
+    deleteConnectionHandler,
+  } = props
   return (
     <>
       <Grid item xs={3}>
@@ -83,7 +89,12 @@ export default function Connection(props) {
               </Fab>
             </Tooltip>
             <Tooltip title="Delete Connection">
-              <Fab color="primary" size="small" aria-label="edit">
+              <Fab
+                color="primary"
+                size="small"
+                aria-label="edit"
+                onClick={() => deleteConnectionHandler(connectionDetails.id)}
+              >
                 <DeleteIcon />
               </Fab>
             </Tooltip>

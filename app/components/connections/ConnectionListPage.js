@@ -19,6 +19,12 @@ class ConnectionListPage extends Component<Props> {
     fetchConnections()
   }
 
+  deleteConnectionHandler = connectionId => {
+    const { connectionActions } = this.props
+    const { deleteConnection } = connectionActions
+    deleteConnection(connectionId)
+  }
+
   connectEventHandler = connectionDetails => {
     const { history } = this.props
     history.push(`/viewer/${connectionDetails.id}`)
@@ -35,6 +41,7 @@ class ConnectionListPage extends Component<Props> {
               key={config.id}
               connectionDetails={config}
               connectEventHandler={this.connectEventHandler}
+              deleteConnectionHandler={this.deleteConnectionHandler}
             />
           ))}
       </Grid>

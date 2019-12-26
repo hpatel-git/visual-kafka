@@ -1,8 +1,8 @@
 import {
   FETCH_CONNECTIONS,
   FETCH_CONNECTIONS_SUCCESS,
-  ADD_CONNECTION,
   ADD_CONNECTION_SUCCESS,
+  DELETE_CONNECTION_SUCCESS,
 } from './actionType'
 
 const fs = require('fs')
@@ -48,22 +48,8 @@ export function addConnections(newConnection) {
     } else {
       updatedList = [newConnection]
     }
-    const jsonString = JSON.stringify(updatedList, null, '  ')
-    dispatch(addConnectionRequest())
-    try {
-      fs.writeFileSync(settingFileLocation, jsonString, {
-        encoding: 'utf8',
-        flag: 'w',
-      })
-    } catch (err) {
-      alert(err)
-    }
+    writeLocalConfigFile(updatedList)
     dispatch(addConnectionSuccess(newConnection))
-  }
-}
-function addConnectionRequest() {
-  return {
-    type: ADD_CONNECTION,
   }
 }
 
@@ -71,5 +57,34 @@ function addConnectionSuccess(newConnection) {
   return {
     type: ADD_CONNECTION_SUCCESS,
     payload: newConnection,
+  }
+}
+
+export function deleteConnection(connectionId) {
+  return (dispatch, getState) => {
+    const { connections } = getState()
+    const { configurations } = connections
+    const updatedList = configurations.filter(item => item.id !== connectionId)
+    writeLocalConfigFile(updatedList)
+    dispatch(deleteConnectionSuccess(updatedList))
+  }
+}
+
+function writeLocalConfigFile(updatedList) {
+  const jsonString = JSON.stringify(updatedList, null, '  ')
+  try {
+    fs.writeFileSync(settingFileLocation, jsonString, {
+      encoding: 'utf8',
+      flag: 'w',
+    })
+  } catch (err) {
+    console.log('Error while deleting connection')
+  }
+}
+
+function deleteConnectionSuccess(updatedList) {
+  return {
+    type: DELETE_CONNECTION_SUCCESS,
+    payload: updatedList,
   }
 }
