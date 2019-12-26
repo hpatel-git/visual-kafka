@@ -6,8 +6,12 @@ import {
 } from './actionType'
 
 const fs = require('fs')
+const electron = require('electron')
+const path = require('path')
 
-const settingFileLocation = 'settings.json'
+const userDataPath = (electron.app || electron.remote.app).getPath('userData')
+
+const settingFileLocation = path.join(userDataPath, 'settings.json')
 
 export function fetchConnections() {
   return dispatch => {
@@ -36,7 +40,6 @@ function fetchConnectionSuccess(configurations) {
 
 export function addConnections(newConnection) {
   return (dispatch, getState) => {
-    console.log(getState())
     const { connections } = getState()
     const { configurations } = connections
     let updatedList = []
@@ -47,10 +50,14 @@ export function addConnections(newConnection) {
     }
     const jsonString = JSON.stringify(updatedList, null, '  ')
     dispatch(addConnectionRequest())
-    fs.writeFileSync(settingFileLocation, jsonString, {
-      encoding: 'utf8',
-      flag: 'w',
-    })
+    try {
+      fs.writeFileSync(settingFileLocation, jsonString, {
+        encoding: 'utf8',
+        flag: 'w',
+      })
+    } catch (err) {
+      alert(err)
+    }
     dispatch(addConnectionSuccess(newConnection))
   }
 }

@@ -10,6 +10,7 @@ import * as viewerActionsCreator from '../../store/viewer/actionCreator'
 
 import Connection from './Connection'
 import AddConnectionContainer from './AddConnectionContainer'
+
 // $FlowFixMe
 class ConnectionListPage extends Component<Props> {
   componentDidMount() {
