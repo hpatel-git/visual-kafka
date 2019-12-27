@@ -2,6 +2,7 @@ import {
   FETCH_LIST_OF_TOPICS,
   FETCH_LIST_OF_TOPICS_SUCCESS,
   UPDATE_SELECTED_TOPIC,
+  RESET_VIEW_LAYOUT,
 } from './actionType'
 
 const kafka = require('kafka-node')
@@ -30,6 +31,13 @@ export function updateSelectedTopic(topicName) {
     payload: topicName,
   }
 }
+
+export function resetViewLayout() {
+  return {
+    type: RESET_VIEW_LAYOUT,
+  }
+}
+
 function fetchListOfTopicsRequest() {
   return {
     type: FETCH_LIST_OF_TOPICS,

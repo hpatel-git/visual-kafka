@@ -14,6 +14,7 @@ const drawerWidth = 240
 
 ViewerHeader.propTypes = {
   selectedTopic: PropTypes.string,
+  exitViewerHandler: PropTypes.func.isRequired,
 }
 
 ViewerHeader.defaultProps = {
@@ -55,7 +56,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function ViewerHeader(props) {
   const classes = useStyles()
-  const { selectedTopic } = props
+  const { selectedTopic, exitViewerHandler } = props
   return (
     <AppBar
       position="fixed"
@@ -72,7 +73,7 @@ export default function ViewerHeader(props) {
             </Typography>
           </Grid>
           <Grid item>
-            <Link to="/">
+            <Link to="#" onClick={() => exitViewerHandler()}>
               <IconButton
                 aria-label="Logout"
                 className={classes.logoutButton}

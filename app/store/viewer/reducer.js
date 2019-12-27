@@ -2,6 +2,7 @@ import {
   FETCH_LIST_OF_TOPICS,
   FETCH_LIST_OF_TOPICS_SUCCESS,
   UPDATE_SELECTED_TOPIC,
+  RESET_VIEW_LAYOUT,
 } from './actionType'
 
 export const initialState = {
@@ -38,6 +39,14 @@ export default function viewer(state = initialState, action = {}) {
           listOfTopics: payload.listOfToipcs,
           configuration: payload.configuration,
         },
+      }
+      return newState
+    }
+    case RESET_VIEW_LAYOUT: {
+      const newState = {
+        ...state,
+        isFetching: false,
+        activeConnection: undefined,
       }
       return newState
     }

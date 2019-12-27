@@ -32,6 +32,12 @@ class ViewerLayoutPage extends Component<Props> {
     }
   }
 
+  exitViewerHandler = () => {
+    const { history, resetViewLayout } = this.props
+    resetViewLayout()
+    history.push(routes.CONNECTIONS)
+  }
+
   updateSelectedTopic = topicName => {
     const { updateSelectedTopic } = this.props
     updateSelectedTopic(topicName)
@@ -49,6 +55,7 @@ class ViewerLayoutPage extends Component<Props> {
         {activeConnection && (
           <ViewerLayout
             activeConnection={activeConnection}
+            exitViewerHandler={this.exitViewerHandler}
             updateSelectedTopic={this.updateSelectedTopic}
           />
         )}

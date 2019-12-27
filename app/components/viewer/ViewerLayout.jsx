@@ -17,6 +17,7 @@ const drawerWidth = 240
 
 ViewerLayout.propTypes = {
   updateSelectedTopic: PropTypes.func.isRequired,
+  exitViewerHandler: PropTypes.func.isRequired,
   activeConnection: PropTypes.shape({
     listOfTopics: PropTypes.arrayOf(
       PropTypes.oneOfType([PropTypes.number, PropTypes.string])
@@ -36,6 +37,10 @@ const useStyles = makeStyles(theme => ({
   },
   drawerPaper: {
     width: drawerWidth,
+  },
+  heading: {
+    fontSize: theme.typography.pxToRem(15),
+    fontWeight: theme.typography.fontWeightRegular,
   },
   drawerHeader: {
     display: 'flex',
@@ -64,15 +69,25 @@ const useStyles = makeStyles(theme => ({
 
 export default function ViewerLayout(props) {
   const classes = useStyles()
-  const { activeConnection, updateSelectedTopic } = props
+  const { activeConnection, updateSelectedTopic, exitViewerHandler } = props
   const { listOfTopics, selectedTopic, isFetching } = activeConnection
   const defaultHeader = `(${listOfTopics.length})`
   return (
     <div className={classes.root}>
       <CssBaseline />
       {isFetching && <CircularProgress disableShrink />}
-      {selectedTopic && <ViewerHeader selectedTopic={selectedTopic} />}
-      {!selectedTopic && <ViewerHeader selectedTopic={defaultHeader} />}
+      {selectedTopic && (
+        <ViewerHeader
+          selectedTopic={selectedTopic}
+          exitViewerHandler={exitViewerHandler}
+        />
+      )}
+      {!selectedTopic && (
+        <ViewerHeader
+          selectedTopic={defaultHeader}
+          exitViewerHandler={exitViewerHandler}
+        />
+      )}
       <TopicViewer
         listOfTopics={listOfTopics}
         updateSelectedTopic={updateSelectedTopic}
