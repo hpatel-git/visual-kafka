@@ -83,9 +83,6 @@ export default function MessagePublisher(props) {
       >
         <Grid item xs>
           <div id="errorDiv" />
-          <Typography variant="h6" paragraph>
-            Message Publisher
-          </Typography>
           <Typography variant="caption" display="block" gutterBottom>
             {connectionName} : ({bootstrapServerUrls})
           </Typography>
