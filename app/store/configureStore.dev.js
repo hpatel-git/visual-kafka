@@ -7,6 +7,7 @@ import createRootReducer from './index'
 import * as connectionActions from './connections/actionCreator'
 import * as viewerActions from './viewer/actionCreator'
 import * as publisherActions from './publisher/actionCreator'
+import * as consumerActions from './consumer/actionCreator'
 
 const history = createHashHistory()
 const rootReducer = createRootReducer(history)
@@ -36,6 +37,7 @@ const configureStore = () => {
 
   // Redux DevTools Configuration
   const actionCreators = {
+    ...consumerActions,
     ...publisherActions,
     ...viewerActions,
     ...connectionActions,
