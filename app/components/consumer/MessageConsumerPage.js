@@ -9,7 +9,6 @@ import { withRouter } from 'react-router-dom'
 import * as consumerActions from '../../store/consumer/actionCreator'
 import MessageConsumer from './MessageConsumer'
 import AppNotification from '../notification/AppNotification'
-import appMessages from '../../constants/appMessages.json'
 import variantType from '../../constants/variantType.json'
 // $FlowFixMe
 class MessageConsumerPage extends Component<Props> {
@@ -20,12 +19,10 @@ class MessageConsumerPage extends Component<Props> {
       const promise = consumeMessage(configuration, selectedTopic)
       promise
         .then(result => this.showNotification(result, variantType.SUCCESS))
-        .catch(err => this.showNotification(err, variantType.ERROR))
+        .catch(err => this.showNotification(err.message, variantType.ERROR))
     } catch (e) {
       console.log('Error while publishing', e.stack)
-      if (e.name === 'SyntaxError') {
-        this.showNotification(appMessages.INVALID_JSON, variantType.ERROR)
-      }
+      this.showNotification('Error while publishing', variantType.ERROR)
     }
   }
 

@@ -1,7 +1,6 @@
 import {
   CONSUME_MESSAGE_REQUEST,
   CONSUME_MESSAGE_SUCCESS,
-  SHOW_NOTIFICATION,
   UPDATE_CONSUME_MESSAGE,
 } from './actionType'
 import appMessages from '../../constants/appMessages.json'
@@ -14,29 +13,31 @@ export const consumeMessage = (config, selectedTopic) => dispatch => {
     const client = new kafka.KafkaClient({
       kafkaHost: config.bootstrapServerUrls,
     })
-    const consumer = new kafka.Consumer(client, [{ topic: selectedTopic }], {
-      autoCommit: false,
-    })
+    const consumer = new kafka.Consumer(
+      client,
+      [
+        { topic: selectedTopic.topicName, partition: 0 },
+        { topic: selectedTopic.topicName, partition: 1 },
+        { topic: selectedTopic.topicName, partition: 2 },
+      ],
+      {
+        autoCommit: false,
+        fromOffset: 'earliest',
+      }
+    )
     consumer.on('message', inComingMessage => {
       console.log(inComingMessage)
       dispatch(consumeMessageSuccess(inComingMessage))
       resolve(`${inComingMessage}`)
     })
-
     consumer.on('error', err => {
-      dispatch(showNotification(err))
+      console.log(err)
       reject(new Error(`${appMessages.CONSUME_FAILURE} to ${selectedTopic}`))
     })
   })
   return promise
 }
 
-function showNotification(err) {
-  return {
-    type: SHOW_NOTIFICATION,
-    payload: err,
-  }
-}
 export function updateConsumeMessage(message) {
   return {
     type: UPDATE_CONSUME_MESSAGE,

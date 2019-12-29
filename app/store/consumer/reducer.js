@@ -1,7 +1,6 @@
 import {
   CONSUME_MESSAGE_REQUEST,
   CONSUME_MESSAGE_SUCCESS,
-  SHOW_NOTIFICATION,
   UPDATE_CONSUME_MESSAGE,
 } from './actionType'
 
@@ -17,15 +16,6 @@ export default function consumer(state = initialState, action = {}) {
       const newState = {
         ...state,
         message: payload,
-      }
-      return newState
-    }
-    case SHOW_NOTIFICATION: {
-      const { payload } = action
-      const newState = {
-        ...state,
-        isError: true,
-        errorMessage: payload,
       }
       return newState
     }
