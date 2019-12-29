@@ -13,12 +13,18 @@ import { Link } from 'react-router-dom'
 const drawerWidth = 240
 
 ViewerHeader.propTypes = {
-  selectedTopic: PropTypes.string,
+  selectedTopic: PropTypes.shape({
+    topicName: PropTypes.string.isRequired,
+    totalPartitions: PropTypes.number.isRequired,
+  }),
   exitViewerHandler: PropTypes.func.isRequired,
 }
 
 ViewerHeader.defaultProps = {
-  selectedTopic: '',
+  selectedTopic: {
+    topicName: '',
+    totalPartitions: 0,
+  },
 }
 
 const useStyles = makeStyles(theme => ({
@@ -69,7 +75,7 @@ export default function ViewerHeader(props) {
           <Grid item>
             <Typography variant="h6" noWrap>
               Topic Detail Viewer
-              {selectedTopic && <span> / {selectedTopic}</span>}
+              {selectedTopic && <span> / {selectedTopic.topicName}</span>}
             </Typography>
           </Grid>
           <Grid item>

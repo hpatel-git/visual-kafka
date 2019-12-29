@@ -7,7 +7,7 @@ import {
 
 export const initialState = {
   isFetching: false,
-  message: '',
+  consumedMessages: [],
 }
 
 export default function consumer(state = initialState, action = {}) {
@@ -37,10 +37,11 @@ export default function consumer(state = initialState, action = {}) {
       return newState
     }
     case CONSUME_MESSAGE_SUCCESS: {
+      const { payload } = action
       const newState = {
         ...state,
         isFetching: false,
-        message: '',
+        consumedMessages: [...state.consumedMessages, payload],
       }
       return newState
     }

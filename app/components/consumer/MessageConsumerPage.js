@@ -6,24 +6,18 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 // import { makeStyles } from '@material-ui/core/styles'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import * as publisherActions from '../../store/publisher/actionCreator'
+import * as consumerActions from '../../store/consumer/actionCreator'
 import MessageConsumer from './MessageConsumer'
 import AppNotification from '../notification/AppNotification'
 import appMessages from '../../constants/appMessages.json'
 import variantType from '../../constants/variantType.json'
 // $FlowFixMe
 class MessageConsumerPage extends Component<Props> {
-  publishMessageHandler = () => {
-    const {
-      publishMessage,
-      activeConnection,
-      message,
-      updatePublishMessage,
-    } = this.props
+  consumeMessageHandler = () => {
+    const { activeConnection, consumeMessage } = this.props
     const { configuration, selectedTopic } = activeConnection
     try {
-      JSON.parse(message)
-      const promise = publishMessage(configuration, selectedTopic, message)
+      const promise = consumeMessage(configuration, selectedTopic)
       promise
         .then(result => this.showNotification(result, variantType.SUCCESS))
         .catch(err => this.showNotification(err, variantType.ERROR))
@@ -32,7 +26,6 @@ class MessageConsumerPage extends Component<Props> {
       if (e.name === 'SyntaxError') {
         this.showNotification(appMessages.INVALID_JSON, variantType.ERROR)
       }
-      updatePublishMessage('')
     }
   }
 
@@ -59,7 +52,7 @@ class MessageConsumerPage extends Component<Props> {
   }
 
   render() {
-    const { activeConnection, isFetching, message } = this.props
+    const { activeConnection, isFetching } = this.props
     return (
       <Grid
         container
@@ -70,10 +63,7 @@ class MessageConsumerPage extends Component<Props> {
         {activeConnection && (
           <MessageConsumer
             activeConnection={activeConnection}
-            message={message}
-            clearMessageHandler={this.clearMessageHandler}
-            publishMessageHandler={this.publishMessageHandler}
-            updateMessageHandler={this.updateMessageHandler}
+            consumeMessageHandler={this.consumeMessageHandler}
           />
         )}
         {isFetching && <CircularProgress color="secondary" />}
@@ -95,5 +85,5 @@ const mapStateToProps = state => {
 
 export default connect<*, *, *, *, *, *>(
   mapStateToProps,
-  publisherActions
+  consumerActions
 )(withRouter(MessageConsumerPage))

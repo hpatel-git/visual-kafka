@@ -36,7 +36,7 @@ export default function viewer(state = initialState, action = {}) {
         ...state,
         isFetching: false,
         activeConnection: {
-          listOfTopics: payload.listOfToipcs,
+          listOfTopics: payload.listOfTopics,
           configuration: payload.configuration,
         },
       }

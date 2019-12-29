@@ -15,9 +15,15 @@ export function fetchListOfTopics(config) {
     })
     const admin = new kafka.Admin(client)
     admin.listTopics((err, res) => {
+      const mappedValue = Object.entries(
+        res[1].metadata
+      ).map(([key, value]) => [
+        { topicName: key, totalPartitions: Object.keys(value).length },
+      ])
+      const flatMap = mappedValue.flat(1)
       dispatch(
         fetchListOfTopicsSuccess({
-          listOfToipcs: Object.keys(res[1].metadata),
+          listOfTopics: flatMap,
           configuration: config,
         })
       )

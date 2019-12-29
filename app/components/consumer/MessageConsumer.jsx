@@ -3,26 +3,28 @@ import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
 import PropTypes from 'prop-types'
-import TextareaAutosize from '@material-ui/core/TextareaAutosize'
 import Button from '@material-ui/core/Button'
 
 const drawerWidth = 240
 
 MessageConsumer.propTypes = {
-  message: PropTypes.string.isRequired,
+  consumeMessageHandler: PropTypes.func.isRequired,
   activeConnection: PropTypes.shape({
     listOfTopics: PropTypes.arrayOf(
-      PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+      PropTypes.shape({
+        topicName: PropTypes.string.isRequired,
+        totalPartitions: PropTypes.number.isRequired,
+      })
     ).isRequired,
-    selectedTopic: PropTypes.string,
+    selectedTopic: PropTypes.shape({
+      topicName: PropTypes.string.isRequired,
+      totalPartitions: PropTypes.number.isRequired,
+    }).isRequired,
     configuration: PropTypes.shape({
       connectionName: PropTypes.string.isRequired,
       bootstrapServerUrls: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
-  publishMessageHandler: PropTypes.func.isRequired,
-  updateMessageHandler: PropTypes.func.isRequired,
-  clearMessageHandler: PropTypes.func.isRequired,
 }
 
 const useStyles = makeStyles(theme => ({
@@ -63,13 +65,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function MessageConsumer(props) {
   const classes = useStyles()
-  const {
-    activeConnection,
-    publishMessageHandler,
-    updateMessageHandler,
-    clearMessageHandler,
-    message,
-  } = props
+  const { activeConnection, consumeMessageHandler } = props
   const { configuration } = activeConnection
   const { connectionName, bootstrapServerUrls } = configuration
 
@@ -82,20 +78,9 @@ export default function MessageConsumer(props) {
         alignItems="flex-start"
       >
         <Grid item xs>
-          <div id="errorDiv" />
           <Typography variant="caption" display="block" gutterBottom>
             {connectionName} : ({bootstrapServerUrls})
           </Typography>
-        </Grid>
-        <Grid item xs>
-          <TextareaAutosize
-            aria-label="minimum height"
-            rowsMin={30}
-            value={message}
-            className={classes.fullWidth}
-            placeholder="Please provide your message here"
-            onChange={event => updateMessageHandler(event.target.value)}
-          />
         </Grid>
         <Grid item xs>
           <Grid
@@ -108,19 +93,18 @@ export default function MessageConsumer(props) {
               <Button
                 variant="contained"
                 color="primary"
-                onClick={() => publishMessageHandler()}
+                onClick={() => consumeMessageHandler()}
               >
-                SEND
+                START
               </Button>
             </Grid>
             <Grid item xs>
               <Button
                 variant="contained"
                 color="primary"
-                onClick={() => clearMessageHandler()}
                 className={classes.leftMargin}
               >
-                CLEAR
+                STOP
               </Button>
             </Grid>
           </Grid>

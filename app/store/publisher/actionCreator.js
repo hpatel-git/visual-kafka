@@ -22,20 +22,25 @@ export const publishMessage = (config, selectedTopic, message) => dispatch => {
         .substring(2) + Date.now().toString(36)
     const payload = [
       {
-        topic: selectedTopic,
+        topic: selectedTopic.topicName,
         messages: message,
         key: uniqueId,
       },
     ]
+    console.log(payload)
     producer.on('ready', () => {
       producer.send(payload, (err, data) => {
         console.log(err, data)
         dispatch(publishMessageSuccess())
-        resolve(`${appMessages.PUBLISH_SUCCESS} to ${selectedTopic}`)
+        resolve(`${appMessages.PUBLISH_SUCCESS}`)
       })
       producer.on('error', err => {
         dispatch(showNotification(err))
-        reject(new Error(`${appMessages.PUBLISH_FAILURE} to ${selectedTopic}`))
+        reject(
+          new Error(
+            `${appMessages.PUBLISH_FAILURE} to ${selectedTopic.topicName}`
+          )
+        )
       })
     })
   })

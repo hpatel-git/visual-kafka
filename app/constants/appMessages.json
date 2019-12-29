@@ -1,5 +1,6 @@
 {
   "PUBLISH_SUCCESS": "Message Published successfully",
   "PUBLISH_FAILURE": "Error while publishing message",
-  "INVALID_JSON": "Invalid JSON. Only JSON format supported !"
+  "INVALID_JSON": "Invalid JSON. Only JSON format supported !",
+  "CONSUME_FAILURE": "Error while consumeing message"
 }

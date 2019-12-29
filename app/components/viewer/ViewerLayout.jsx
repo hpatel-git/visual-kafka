@@ -12,6 +12,7 @@ import PropTypes from 'prop-types'
 import TopicViewer from './TopicViewer'
 import ViewerHeader from './ViewerHeader'
 import MessagePublisherPage from '../publisher/MessagePublisherPage'
+import MessageConsumerPage from '../consumer/MessageConsumerPage'
 
 const drawerWidth = 240
 
@@ -20,9 +21,15 @@ ViewerLayout.propTypes = {
   exitViewerHandler: PropTypes.func.isRequired,
   activeConnection: PropTypes.shape({
     listOfTopics: PropTypes.arrayOf(
-      PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+      PropTypes.shape({
+        topicName: PropTypes.string.isRequired,
+        totalPartitions: PropTypes.number.isRequired,
+      })
     ).isRequired,
-    selectedTopic: PropTypes.string,
+    selectedTopic: PropTypes.shape({
+      topicName: PropTypes.string.isRequired,
+      totalPartitions: PropTypes.number.isRequired,
+    }),
     isFetching: PropTypes.bool,
   }).isRequired,
 }
@@ -71,7 +78,10 @@ export default function ViewerLayout(props) {
   const classes = useStyles()
   const { activeConnection, updateSelectedTopic, exitViewerHandler } = props
   const { listOfTopics, selectedTopic, isFetching } = activeConnection
-  const defaultHeader = `(${listOfTopics.length})`
+  const defaultHeader = {
+    topicName: `(${listOfTopics.length})`,
+    totalPartitions: 0,
+  }
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -112,11 +122,7 @@ export default function ViewerLayout(props) {
                 </Typography>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>
-                <Typography>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Suspendisse malesuada lacus ex, sit amet blandit leo lobortis
-                  eget.
-                </Typography>
+                <MessageConsumerPage />
               </ExpansionPanelDetails>
             </ExpansionPanel>
             <ExpansionPanel>
@@ -130,11 +136,10 @@ export default function ViewerLayout(props) {
                 </Typography>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>
-                <Typography>
-                  <MessagePublisherPage />
-                </Typography>
+                <MessagePublisherPage />
               </ExpansionPanelDetails>
             </ExpansionPanel>
+            <div id="errorDiv" />
           </>
         )}
       </main>

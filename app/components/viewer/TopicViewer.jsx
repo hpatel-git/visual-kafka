@@ -16,7 +16,10 @@ const drawerWidth = 250
 TopicViewer.propTypes = {
   updateSelectedTopic: PropTypes.func.isRequired,
   listOfTopics: PropTypes.arrayOf(
-    PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+    PropTypes.shape({
+      topicName: PropTypes.string.isRequired,
+      totalPartitions: PropTypes.number.isRequired,
+    })
   ).isRequired,
 }
 
@@ -65,7 +68,9 @@ export default function TopicViewer(props) {
             if (event.key === 'Enter') {
               setSearchedTopics(
                 listOfTopics.filter(item =>
-                  item.toLowerCase().includes(event.target.value.toLowerCase())
+                  item.topicName
+                    .toLowerCase()
+                    .includes(event.target.value.toLowerCase())
                 )
               )
             }
@@ -80,16 +85,16 @@ export default function TopicViewer(props) {
       <Divider />
       <List>
         {searchedTopics && searchedTopics.length ? (
-          searchedTopics.map(topicName => (
+          searchedTopics.map(item => (
             <ListItem
               button
-              key={topicName}
-              onClick={() => updateSelectedTopic(topicName)}
+              key={item.topicName}
+              onClick={() => updateSelectedTopic(item)}
             >
               <ListItemIcon>
                 <StorageIcon fontSize="small" />
               </ListItemIcon>
-              <ListItemText primary={topicName} />
+              <ListItemText primary={item.topicName} />
             </ListItem>
           ))
         ) : (

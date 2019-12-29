@@ -12,9 +12,15 @@ MessagePublisher.propTypes = {
   message: PropTypes.string.isRequired,
   activeConnection: PropTypes.shape({
     listOfTopics: PropTypes.arrayOf(
-      PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+      PropTypes.shape({
+        topicName: PropTypes.string.isRequired,
+        totalPartitions: PropTypes.number.isRequired,
+      })
     ).isRequired,
-    selectedTopic: PropTypes.string,
+    selectedTopic: PropTypes.shape({
+      topicName: PropTypes.string.isRequired,
+      totalPartitions: PropTypes.number.isRequired,
+    }).isRequired,
     configuration: PropTypes.shape({
       connectionName: PropTypes.string.isRequired,
       bootstrapServerUrls: PropTypes.string.isRequired,
@@ -82,7 +88,6 @@ export default function MessagePublisher(props) {
         alignItems="flex-start"
       >
         <Grid item xs>
-          <div id="errorDiv" />
           <Typography variant="caption" display="block" gutterBottom>
             {connectionName} : ({bootstrapServerUrls})
           </Typography>

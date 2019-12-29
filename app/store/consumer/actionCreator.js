@@ -19,13 +19,13 @@ export const consumeMessage = (config, selectedTopic) => dispatch => {
     })
     consumer.on('message', inComingMessage => {
       console.log(inComingMessage)
-      dispatch(consumeMessageSuccess())
-      resolve(`${appMessages.PUBLISH_SUCCESS} to ${selectedTopic}`)
+      dispatch(consumeMessageSuccess(inComingMessage))
+      resolve(`${inComingMessage}`)
     })
 
     consumer.on('error', err => {
       dispatch(showNotification(err))
-      reject(new Error(`${appMessages.PUBLISH_FAILURE} to ${selectedTopic}`))
+      reject(new Error(`${appMessages.CONSUME_FAILURE} to ${selectedTopic}`))
     })
   })
   return promise
@@ -50,8 +50,9 @@ function consumeMessageRequest() {
   }
 }
 
-function consumeMessageSuccess() {
+function consumeMessageSuccess(inComingMessage) {
   return {
     type: CONSUME_MESSAGE_SUCCESS,
+    payload: inComingMessage,
   }
 }
