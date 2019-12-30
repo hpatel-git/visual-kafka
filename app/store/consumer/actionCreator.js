@@ -10,27 +10,25 @@ const kafka = require('kafka-node')
 export const consumeMessage = (config, selectedTopic) => dispatch => {
   const promise = new Promise((resolve, reject) => {
     dispatch(consumeMessageRequest())
-    const client = new kafka.KafkaClient({
+    const consumerOptions = {
       kafkaHost: config.bootstrapServerUrls,
-    })
-    const consumer = new kafka.Consumer(
-      client,
-      [
-        { topic: selectedTopic.topicName, partition: 0 },
-        { topic: selectedTopic.topicName, partition: 1 },
-        { topic: selectedTopic.topicName, partition: 2 },
-      ],
-      {
-        autoCommit: false,
-        fromOffset: 'earliest',
-      }
-    )
-    consumer.on('message', inComingMessage => {
+      groupId: 'visual-kafka',
+      id: 'consumer1',
+      sessionTimeout: 15000,
+      commitOffsetsOnFirstJoin: false,
+      protocol: ['roundrobin'],
+      fromOffset: 'earliest', // equivalent of auto.offset.reset valid values are 'none', 'latest', 'earliest'
+    }
+    const topics = [selectedTopic.topicName]
+    const consumerGroup = new kafka.ConsumerGroup(consumerOptions, topics)
+    console.log(consumerGroup)
+    consumerGroup.on('message', inComingMessage => {
       console.log(inComingMessage)
       dispatch(consumeMessageSuccess(inComingMessage))
       resolve(`${inComingMessage}`)
     })
-    consumer.on('error', err => {
+
+    consumerGroup.on('error', err => {
       console.log(err)
       reject(new Error(`${appMessages.CONSUME_FAILURE} to ${selectedTopic}`))
     })
