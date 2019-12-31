@@ -18,7 +18,7 @@ class MessageConsumerPage extends Component<Props> {
     try {
       const promise = consumeMessage(configuration, selectedTopic)
       promise
-        .then(result => this.showNotification(result, variantType.SUCCESS))
+        // .then(result => this.showNotification(result, variantType.SUCCESS))
         .catch(err => this.showNotification(err.message, variantType.ERROR))
     } catch (e) {
       console.log('Error while publishing', e.stack)

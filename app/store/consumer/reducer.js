@@ -23,6 +23,7 @@ export default function consumer(state = initialState, action = {}) {
       const newState = {
         ...state,
         isFetching: true,
+        consumedMessages: [],
       }
       return newState
     }

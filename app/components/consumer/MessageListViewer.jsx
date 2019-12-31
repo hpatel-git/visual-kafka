@@ -63,7 +63,8 @@ const headCells = [
 ]
 
 function MessageListViewerHead(props) {
-  const { classes, order, orderBy, onRequestSort } = props
+  const classes = useStyles()
+  const { order, orderBy, onRequestSort } = props
   const createSortHandler = property => event => {
     onRequestSort(event, property)
   }
@@ -99,7 +100,6 @@ function MessageListViewerHead(props) {
 
 // classes, order, orderBy, onRequestSort
 MessageListViewerHead.propTypes = {
-  classes: PropTypes.InstanceOf(Array).isRequired,
   onRequestSort: PropTypes.func.isRequired,
   order: PropTypes.oneOf(['asc', 'desc']).isRequired,
   orderBy: PropTypes.string.isRequired,
@@ -219,7 +219,7 @@ MessageListViewer.propTypes = {
 export default function MessageListViewer(props) {
   const classes = useStyles()
   const [order, setOrder] = React.useState('asc')
-  const [orderBy, setOrderBy] = React.useState('calories')
+  const [orderBy, setOrderBy] = React.useState('key')
   const [selected, setSelected] = React.useState([])
   const [page, setPage] = React.useState(0)
   const [dense] = React.useState(true)
