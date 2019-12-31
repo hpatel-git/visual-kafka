@@ -4,11 +4,23 @@ import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
 import PropTypes from 'prop-types'
 import Button from '@material-ui/core/Button'
+import MessageListViewer from './MessageListViewer'
 
 const drawerWidth = 240
 
 MessageConsumer.propTypes = {
   consumeMessageHandler: PropTypes.func.isRequired,
+  consumedMessages: PropTypes.arrayOf(
+    PropTypes.shape({
+      topic: PropTypes.string.isRequired,
+      value: PropTypes.string.isRequired,
+      offset: PropTypes.number.isRequired,
+      partition: PropTypes.number.isRequired,
+      highWaterOffset: PropTypes.number.isRequired,
+      key: PropTypes.string.isRequired,
+      timestamp: PropTypes.string.isRequired,
+    })
+  ).isRequired,
   activeConnection: PropTypes.shape({
     listOfTopics: PropTypes.arrayOf(
       PropTypes.shape({
@@ -61,14 +73,20 @@ const useStyles = makeStyles(theme => ({
   fullWidth: {
     width: '876px',
   },
+  messageListViewer: {
+    height: '500px',
+    width: '100%',
+    display: 'flex',
+    overflowX: 'auto',
+    overflowY: 'auto',
+  },
 }))
 
 export default function MessageConsumer(props) {
   const classes = useStyles()
-  const { activeConnection, consumeMessageHandler } = props
+  const { activeConnection, consumeMessageHandler, consumedMessages } = props
   const { configuration } = activeConnection
   const { connectionName, bootstrapServerUrls } = configuration
-
   return (
     <>
       <Grid
@@ -82,6 +100,13 @@ export default function MessageConsumer(props) {
             {connectionName} : ({bootstrapServerUrls})
           </Typography>
         </Grid>
+        {consumedMessages && (
+          <Grid item xs>
+            <div className={classes.messageListViewer}>
+              <MessageListViewer consumedMessages={consumedMessages} />
+            </div>
+          </Grid>
+        )}
         <Grid item xs>
           <Grid
             container

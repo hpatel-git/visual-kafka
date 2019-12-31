@@ -13,7 +13,8 @@ export const consumeMessage = (config, selectedTopic) => dispatch => {
     const consumerOptions = {
       kafkaHost: config.bootstrapServerUrls,
       groupId: 'visual-kafka',
-      id: 'consumer1',
+      autoCommit: false,
+      id: 'visual-kafka',
       sessionTimeout: 15000,
       commitOffsetsOnFirstJoin: false,
       protocol: ['roundrobin'],

@@ -49,7 +49,7 @@ class MessageConsumerPage extends Component<Props> {
   }
 
   render() {
-    const { activeConnection, isFetching } = this.props
+    const { activeConnection, isFetching, consumedMessages } = this.props
     return (
       <Grid
         container
@@ -60,6 +60,7 @@ class MessageConsumerPage extends Component<Props> {
         {activeConnection && (
           <MessageConsumer
             activeConnection={activeConnection}
+            consumedMessages={consumedMessages}
             consumeMessageHandler={this.consumeMessageHandler}
           />
         )}
@@ -70,13 +71,13 @@ class MessageConsumerPage extends Component<Props> {
 }
 
 const mapStateToProps = state => {
-  const { viewer, publisher } = state
+  const { viewer, consumer } = state
   const { activeConnection } = viewer
-  const { isFetching, message } = publisher
+  const { consumedMessages, isFetching } = consumer
   return {
     activeConnection,
     isFetching,
-    message,
+    consumedMessages,
   }
 }
 
