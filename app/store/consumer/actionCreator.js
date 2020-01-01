@@ -7,26 +7,33 @@ import appMessages from '../../constants/appMessages.json'
 
 const kafka = require('kafka-node')
 
+const consumerOptions = {
+  autoCommit: false,
+  sessionTimeout: 15000,
+  commitOffsetsOnFirstJoin: false,
+  protocol: ['roundrobin'],
+  fromOffset: 'earliest', // equivalent of auto.offset.reset valid values are 'none', 'latest', 'earliest'
+}
 export const consumeMessage = (config, selectedTopic) => dispatch => {
   const promise = new Promise((resolve, reject) => {
+    consumerOptions.kafkaHost = config.bootstrapServerUrls
+    consumerOptions.groupId = `visual-kafka-${selectedTopic.topicName}`
+    consumerOptions.id = `visual-kafka-${selectedTopic.topicName}`
     dispatch(consumeMessageRequest())
-    const consumerOptions = {
-      kafkaHost: config.bootstrapServerUrls,
-      groupId: 'visual-kafka',
-      autoCommit: false,
-      id: 'visual-kafka',
-      sessionTimeout: 15000,
-      commitOffsetsOnFirstJoin: false,
-      protocol: ['roundrobin'],
-      fromOffset: 'earliest', // equivalent of auto.offset.reset valid values are 'none', 'latest', 'earliest'
-    }
     const topics = [selectedTopic.topicName]
     const consumerGroup = new kafka.ConsumerGroup(consumerOptions, topics)
     console.log(consumerGroup)
     consumerGroup.on('message', inComingMessage => {
-      console.log(inComingMessage)
       dispatch(consumeMessageSuccess(inComingMessage))
-      resolve(`${inComingMessage}`)
+      if (inComingMessage.offset === inComingMessage.highWaterOffset - 1) {
+        try {
+          consumerGroup.close(true, () => {
+            console.log('consumer has been closed..')
+          })
+        } catch (ex) {
+          resolve(`Message Consumed Successfully`)
+        }
+      }
     })
 
     consumerGroup.on('error', err => {
