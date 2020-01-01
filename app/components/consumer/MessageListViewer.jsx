@@ -212,7 +212,7 @@ MessageListViewer.propTypes = {
       partition: PropTypes.number.isRequired,
       highWaterOffset: PropTypes.number.isRequired,
       key: PropTypes.string.isRequired,
-      timestamp: PropTypes.string.isRequired,
+      timestamp: PropTypes.instanceOf(Date).isRequired,
     })
   ).isRequired,
 }
