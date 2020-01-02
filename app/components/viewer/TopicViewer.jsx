@@ -1,5 +1,5 @@
 import React from 'react'
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles, fade } from '@material-ui/core/styles'
 import Drawer from '@material-ui/core/Drawer'
 import InputBase from '@material-ui/core/InputBase'
 import List from '@material-ui/core/List'
@@ -10,6 +10,7 @@ import ListItemText from '@material-ui/core/ListItemText'
 import PropTypes from 'prop-types'
 import StorageIcon from '@material-ui/icons/Storage'
 import ClearIcon from '@material-ui/icons/Clear'
+import SearchIcon from '@material-ui/icons/Search'
 
 const drawerWidth = 250
 
@@ -41,6 +42,31 @@ const useStyles = makeStyles(theme => ({
     ...theme.mixins.toolbar,
     justifyContent: 'flex-end',
   },
+  search: {
+    position: 'relative',
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: fade(theme.palette.common.white, 0.15),
+    '&:hover': {
+      backgroundColor: fade(theme.palette.common.white, 0.25),
+    },
+    marginRight: theme.spacing(2),
+    marginLeft: 0,
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      marginLeft: theme.spacing(3),
+      width: 'auto',
+    },
+  },
+  searchIcon: {
+    width: theme.spacing(0),
+    height: '100%',
+    position: 'absolute',
+    left: '-15px',
+    pointerEvents: 'none',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 }))
 
 export default function TopicViewer(props) {
@@ -60,27 +86,32 @@ export default function TopicViewer(props) {
       }}
     >
       <div className={classes.drawerHeader}>
-        <InputBase
-          autoFocus
-          placeholder={placeHolderText}
-          helpertext="Topic Name"
-          onKeyPress={event => {
-            if (event.key === 'Enter') {
-              setSearchedTopics(
-                listOfTopics.filter(item =>
-                  item.topicName
-                    .toLowerCase()
-                    .includes(event.target.value.toLowerCase())
+        <div className={classes.search}>
+          <div className={classes.searchIcon}>
+            <SearchIcon />
+          </div>
+          <InputBase
+            autoFocus
+            placeholder={placeHolderText}
+            helpertext="Topic Name"
+            onKeyPress={event => {
+              if (event.key === 'Enter') {
+                setSearchedTopics(
+                  listOfTopics.filter(item =>
+                    item.topicName
+                      .toLowerCase()
+                      .includes(event.target.value.toLowerCase())
+                  )
                 )
-              )
-            }
-          }}
-          classes={{
-            root: classes.inputRoot,
-            input: classes.inputInput,
-          }}
-          inputProps={{ 'aria-label': 'search' }}
-        />
+              }
+            }}
+            classes={{
+              root: classes.inputRoot,
+              input: classes.inputInput,
+            }}
+            inputProps={{ 'aria-label': 'search' }}
+          />
+        </div>
       </div>
       <Divider />
       <List>

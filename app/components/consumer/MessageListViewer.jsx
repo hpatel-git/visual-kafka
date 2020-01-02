@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
-import { lighten, makeStyles } from '@material-ui/core/styles'
+import { lighten, makeStyles, fade } from '@material-ui/core/styles'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
@@ -13,6 +13,8 @@ import TableSortLabel from '@material-ui/core/TableSortLabel'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
+import SearchIcon from '@material-ui/icons/Search'
+import InputBase from '@material-ui/core/InputBase'
 import Tooltip from '@material-ui/core/Tooltip'
 import DeleteIcon from '@material-ui/icons/Delete'
 import FilterListIcon from '@material-ui/icons/FilterList'
@@ -52,14 +54,14 @@ const headCells = [
     label: 'Key',
   },
   { id: 'partition', numeric: true, disablePadding: false, label: 'Partition' },
+  { id: 'offset', numeric: true, disablePadding: false, label: 'Offset' },
   {
     id: 'timestamp',
-    numeric: false,
-    disablePadding: false,
+    numeric: true,
+    disablePadding: true,
     label: 'Timestamp',
   },
-  { id: 'offset', numeric: true, disablePadding: false, label: 'Offset' },
-  { id: 'topic', numeric: false, disablePadding: false, label: 'Topic' },
+  { id: 'topic', numeric: true, disablePadding: false, label: 'Topic' },
 ]
 
 function MessageListViewerHead(props) {
@@ -75,8 +77,8 @@ function MessageListViewerHead(props) {
         {headCells.map(headCell => (
           <TableCell
             key={headCell.id}
-            align={headCell.numeric ? 'right' : 'left'}
-            padding={headCell.disablePadding ? 'none' : 'default'}
+            align={headCell.numeric ? 'right' : 'center'}
+            // padding={headCell.disablePadding ? 'none' : 'default'}
             sortDirection={orderBy === headCell.id ? order : false}
           >
             <TableSortLabel
@@ -201,6 +203,31 @@ const useStyles = makeStyles(theme => ({
     top: 20,
     width: 1,
   },
+  search: {
+    position: 'relative',
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: fade(theme.palette.common.white, 0.15),
+    '&:hover': {
+      backgroundColor: fade(theme.palette.common.white, 0.25),
+    },
+    marginRight: theme.spacing(2),
+    marginLeft: 0,
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      marginLeft: theme.spacing(3),
+      width: 'auto',
+    },
+  },
+  searchIcon: {
+    width: theme.spacing(0),
+    height: '100%',
+    position: 'absolute',
+    left: '-15px',
+    pointerEvents: 'none',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 }))
 
 MessageListViewer.propTypes = {
@@ -269,6 +296,19 @@ export default function MessageListViewer(props) {
 
   return (
     <div className={classes.root}>
+      <div className={classes.search}>
+        <div className={classes.searchIcon}>
+          <SearchIcon />
+        </div>
+        <InputBase
+          placeholder="Search message…"
+          classes={{
+            root: classes.inputRoot,
+            input: classes.inputInput,
+          }}
+          inputProps={{ 'aria-label': 'search' }}
+        />
+      </div>
       <TableContainer className={classes.tableWrapper}>
         <Table
           className={classes.table}
@@ -310,12 +350,12 @@ export default function MessageListViewer(props) {
                       {row.key}
                     </TableCell>
                     <TableCell align="right">{row.partition}</TableCell>
+                    <TableCell align="right">{row.offset}</TableCell>
                     <TableCell align="right">
                       <Moment format="YYYY-MMM-DD">
                         {row.timestamp.toString()}
                       </Moment>
                     </TableCell>
-                    <TableCell align="right">{row.offset}</TableCell>
                     <TableCell align="right">{row.topic}</TableCell>
                   </TableRow>
                 )
