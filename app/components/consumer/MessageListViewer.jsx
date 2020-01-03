@@ -19,6 +19,7 @@ import Tooltip from '@material-ui/core/Tooltip'
 import DeleteIcon from '@material-ui/icons/Delete'
 import FilterListIcon from '@material-ui/icons/FilterList'
 import Moment from 'react-moment'
+import ShowMoreText from 'react-show-more-text'
 
 function desc(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -61,7 +62,7 @@ const headCells = [
     disablePadding: true,
     label: 'Timestamp',
   },
-  { id: 'topic', numeric: true, disablePadding: false, label: 'Topic' },
+  { id: 'message', numeric: true, disablePadding: false, label: 'Message' },
 ]
 
 function MessageListViewerHead(props) {
@@ -228,6 +229,9 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  messageText: {
+    color: 'blue',
+  },
 }))
 
 MessageListViewer.propTypes = {
@@ -347,16 +351,42 @@ export default function MessageListViewer(props) {
                       scope="row"
                       padding="none"
                     >
-                      {row.key}
+                      <ShowMoreText
+                        /* Default options */
+                        lines={1}
+                        more="Show more"
+                        less="Show less"
+                        anchorClass={classes.messageText}
+                        // onClick={this.executeOnClick}
+                        expanded={false}
+                        width={380}
+                      >
+                        {row.key}
+                      </ShowMoreText>
                     </TableCell>
                     <TableCell align="right">{row.partition}</TableCell>
                     <TableCell align="right">{row.offset}</TableCell>
                     <TableCell align="right">
-                      <Moment format="YYYY-MMM-DD">
+                      <Moment format="YYYY-MMM-DD hh:mm:ss">
                         {row.timestamp.toString()}
                       </Moment>
                     </TableCell>
-                    <TableCell align="right">{row.topic}</TableCell>
+                    <TableCell align="left">
+                      <pre>
+                        <ShowMoreText
+                          /* Default options */
+                          lines={1}
+                          more="Show more"
+                          less="Show less"
+                          anchorClass={classes.messageText}
+                          // onClick={this.executeOnClick}
+                          expanded={false}
+                          width={380}
+                        >
+                          {JSON.stringify(JSON.parse(row.value), null, 4)}
+                        </ShowMoreText>
+                      </pre>
+                    </TableCell>
                   </TableRow>
                 )
               })}

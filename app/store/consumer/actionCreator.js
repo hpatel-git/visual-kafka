@@ -6,6 +6,7 @@ import {
 import appMessages from '../../constants/appMessages.json'
 
 const kafka = require('kafka-node')
+const uuidv4 = require('uuid/v4')
 
 const consumerOptions = {
   autoCommit: false,
@@ -57,8 +58,18 @@ function consumeMessageRequest() {
 }
 
 function consumeMessageSuccess(inComingMessage) {
+  let inComingMessageWithKey
+  console.log(inComingMessage)
+  if (!inComingMessage.key) {
+    inComingMessageWithKey = Object.assign(inComingMessage, {
+      key: `VK_${uuidv4()}`,
+    })
+  } else {
+    inComingMessageWithKey = Object.assign(inComingMessage)
+  }
+
   return {
     type: CONSUME_MESSAGE_SUCCESS,
-    payload: inComingMessage,
+    payload: inComingMessageWithKey,
   }
 }
