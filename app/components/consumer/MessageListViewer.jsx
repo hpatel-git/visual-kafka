@@ -311,11 +311,9 @@ export default function MessageListViewer(props) {
             root: classes.inputRoot,
             input: classes.inputInput,
           }}
-          onKeyPress={event => {
-            if (event.key === 'Enter') {
-              searchMessageHandler(event.target.value.toLowerCase())
-            }
-          }}
+          onChange={event =>
+            searchMessageHandler(event.target.value.toLowerCase())
+          }
           inputProps={{ 'aria-label': 'search' }}
         />
       </div>
