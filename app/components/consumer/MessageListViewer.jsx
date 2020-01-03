@@ -235,7 +235,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 MessageListViewer.propTypes = {
-  consumedMessages: PropTypes.arrayOf(
+  filteredMessages: PropTypes.arrayOf(
     PropTypes.shape({
       topic: PropTypes.string.isRequired,
       value: PropTypes.string.isRequired,
@@ -246,6 +246,7 @@ MessageListViewer.propTypes = {
       timestamp: PropTypes.instanceOf(Date).isRequired,
     })
   ).isRequired,
+  searchMessageHandler: PropTypes.func.isRequired,
 }
 export default function MessageListViewer(props) {
   const classes = useStyles()
@@ -255,7 +256,7 @@ export default function MessageListViewer(props) {
   const [page, setPage] = React.useState(0)
   const [dense] = React.useState(true)
   const [rowsPerPage, setRowsPerPage] = React.useState(10)
-  const { consumedMessages } = props
+  const { filteredMessages, searchMessageHandler } = props
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc'
@@ -296,7 +297,7 @@ export default function MessageListViewer(props) {
 
   const emptyRows =
     rowsPerPage -
-    Math.min(rowsPerPage, consumedMessages.length - page * rowsPerPage)
+    Math.min(rowsPerPage, filteredMessages.length - page * rowsPerPage)
 
   return (
     <div className={classes.root}>
@@ -309,6 +310,11 @@ export default function MessageListViewer(props) {
           classes={{
             root: classes.inputRoot,
             input: classes.inputInput,
+          }}
+          onKeyPress={event => {
+            if (event.key === 'Enter') {
+              searchMessageHandler(event.target.value.toLowerCase())
+            }
           }}
           inputProps={{ 'aria-label': 'search' }}
         />
@@ -326,10 +332,10 @@ export default function MessageListViewer(props) {
             order={order}
             orderBy={orderBy}
             onRequestSort={handleRequestSort}
-            rowCount={consumedMessages.length}
+            rowCount={filteredMessages.length}
           />
           <TableBody>
-            {stableSort(consumedMessages, getSorting(order, orderBy))
+            {stableSort(filteredMessages, getSorting(order, orderBy))
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row, index) => {
                 const isItemSelected = isSelected(row.key)
@@ -401,7 +407,7 @@ export default function MessageListViewer(props) {
       <TablePagination
         rowsPerPageOptions={[5, 10]}
         component="div"
-        count={consumedMessages.length}
+        count={filteredMessages.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onChangePage={handleChangePage}

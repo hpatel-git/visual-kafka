@@ -26,6 +26,11 @@ class MessageConsumerPage extends Component<Props> {
     }
   }
 
+  searchMessageHandler = searchTerms => {
+    const { filterMessageBySearchTerm } = this.props
+    filterMessageBySearchTerm(searchTerms)
+  }
+
   showNotification = (notificationMessage, variant) => {
     const notification = (
       <AppNotification message={notificationMessage} variant={variant} />
@@ -49,7 +54,7 @@ class MessageConsumerPage extends Component<Props> {
   }
 
   render() {
-    const { activeConnection, isFetching, consumedMessages } = this.props
+    const { activeConnection, isFetching, filteredMessages } = this.props
     return (
       <Grid
         container
@@ -60,8 +65,9 @@ class MessageConsumerPage extends Component<Props> {
         {activeConnection && (
           <MessageConsumer
             activeConnection={activeConnection}
-            consumedMessages={consumedMessages}
+            filteredMessages={filteredMessages}
             consumeMessageHandler={this.consumeMessageHandler}
+            searchMessageHandler={this.searchMessageHandler}
           />
         )}
         {isFetching && <CircularProgress color="secondary" />}
@@ -73,11 +79,11 @@ class MessageConsumerPage extends Component<Props> {
 const mapStateToProps = state => {
   const { viewer, consumer } = state
   const { activeConnection } = viewer
-  const { consumedMessages, isFetching } = consumer
+  const { filteredMessages, isFetching } = consumer
   return {
     activeConnection,
     isFetching,
-    consumedMessages,
+    filteredMessages,
   }
 }
 

@@ -2,6 +2,7 @@ import {
   CONSUME_MESSAGE_REQUEST,
   CONSUME_MESSAGE_SUCCESS,
   UPDATE_CONSUME_MESSAGE,
+  FILTER_MESSAGE,
 } from './actionType'
 import appMessages from '../../constants/appMessages.json'
 
@@ -42,6 +43,25 @@ export const consumeMessage = (config, selectedTopic) => dispatch => {
     })
   })
   return promise
+}
+
+export function filterMessageBySearchTerm(searchTerm) {
+  return (dispatch, getState) => {
+    const { consumer } = getState()
+    const { consumedMessages } = consumer
+    const filteredMessages = consumedMessages.filter(
+      message =>
+        message.key.includes(searchTerm) || message.value.includes(searchTerm)
+    )
+    dispatch(filterMessage(filteredMessages))
+  }
+}
+
+export function filterMessage(filteredMessages) {
+  return {
+    type: FILTER_MESSAGE,
+    payload: filteredMessages,
+  }
 }
 
 export function updateConsumeMessage(message) {

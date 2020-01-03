@@ -10,7 +10,8 @@ const drawerWidth = 240
 
 MessageConsumer.propTypes = {
   consumeMessageHandler: PropTypes.func.isRequired,
-  consumedMessages: PropTypes.arrayOf(
+  searchMessageHandler: PropTypes.func.isRequired,
+  filteredMessages: PropTypes.arrayOf(
     PropTypes.shape({
       topic: PropTypes.string.isRequired,
       value: PropTypes.string.isRequired,
@@ -84,7 +85,12 @@ const useStyles = makeStyles(theme => ({
 
 export default function MessageConsumer(props) {
   const classes = useStyles()
-  const { activeConnection, consumeMessageHandler, consumedMessages } = props
+  const {
+    activeConnection,
+    consumeMessageHandler,
+    filteredMessages,
+    searchMessageHandler,
+  } = props
   const { configuration } = activeConnection
   const { connectionName, bootstrapServerUrls } = configuration
   return (
@@ -100,10 +106,13 @@ export default function MessageConsumer(props) {
             {connectionName} : ({bootstrapServerUrls})
           </Typography>
         </Grid>
-        {consumedMessages && (
+        {filteredMessages && (
           <Grid item xs>
             <div className={classes.messageListViewer}>
-              <MessageListViewer consumedMessages={consumedMessages} />
+              <MessageListViewer
+                filteredMessages={filteredMessages}
+                searchMessageHandler={searchMessageHandler}
+              />
             </div>
           </Grid>
         )}

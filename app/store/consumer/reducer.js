@@ -2,11 +2,13 @@ import {
   CONSUME_MESSAGE_REQUEST,
   CONSUME_MESSAGE_SUCCESS,
   UPDATE_CONSUME_MESSAGE,
+  FILTER_MESSAGE,
 } from './actionType'
 
 export const initialState = {
   isFetching: false,
   consumedMessages: [],
+  filteredMessages: [],
 }
 
 export default function consumer(state = initialState, action = {}) {
@@ -24,6 +26,7 @@ export default function consumer(state = initialState, action = {}) {
         ...state,
         isFetching: true,
         consumedMessages: [],
+        filteredMessages: [],
       }
       return newState
     }
@@ -33,6 +36,16 @@ export default function consumer(state = initialState, action = {}) {
         ...state,
         isFetching: false,
         consumedMessages: [...state.consumedMessages, payload],
+        filteredMessages: [...state.filteredMessages, payload],
+      }
+      return newState
+    }
+    case FILTER_MESSAGE: {
+      const { payload } = action
+      const newState = {
+        ...state,
+        isFetching: false,
+        filteredMessages: payload,
       }
       return newState
     }
