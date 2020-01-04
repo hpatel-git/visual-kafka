@@ -13,7 +13,7 @@ import appMessages from '../../constants/appMessages.json'
 import variantType from '../../constants/variantType.json'
 // $FlowFixMe
 class MessagePublisherPage extends Component<Props> {
-  publishMessageHandler = () => {
+  publishMessageHandler = partitionNum => {
     const {
       publishMessage,
       activeConnection,
@@ -23,7 +23,12 @@ class MessagePublisherPage extends Component<Props> {
     const { configuration, selectedTopic } = activeConnection
     try {
       JSON.parse(message)
-      const promise = publishMessage(configuration, selectedTopic, message)
+      const promise = publishMessage(
+        configuration,
+        selectedTopic,
+        message,
+        partitionNum
+      )
       promise
         .then(result => this.showNotification(result, variantType.SUCCESS))
         .catch(err => this.showNotification(err, variantType.ERROR))

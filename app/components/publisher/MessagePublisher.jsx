@@ -5,6 +5,8 @@ import Grid from '@material-ui/core/Grid'
 import PropTypes from 'prop-types'
 import TextareaAutosize from '@material-ui/core/TextareaAutosize'
 import Button from '@material-ui/core/Button'
+import Radio from '@material-ui/core/Radio'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
 
 const drawerWidth = 240
 
@@ -76,9 +78,13 @@ export default function MessagePublisher(props) {
     clearMessageHandler,
     message,
   } = props
-  const { configuration } = activeConnection
+  const { configuration, selectedTopic } = activeConnection
   const { connectionName, bootstrapServerUrls } = configuration
+  const [selectedValue, setSelectedValue] = React.useState('0')
 
+  const handleChange = event => {
+    setSelectedValue(event.target.value)
+  }
   return (
     <>
       <Grid
@@ -89,7 +95,8 @@ export default function MessagePublisher(props) {
       >
         <Grid item xs>
           <Typography variant="caption" display="block" gutterBottom>
-            {connectionName} : ({bootstrapServerUrls})
+            {connectionName} : ({bootstrapServerUrls}) ({' '}
+            {selectedTopic.totalPartitions} )
           </Typography>
         </Grid>
         <Grid item xs>
@@ -109,11 +116,37 @@ export default function MessagePublisher(props) {
             justify="flex-start"
             alignItems="flex-start"
           >
+            {[...Array(selectedTopic.totalPartitions)].map((x, i) => (
+              <FormControlLabel
+                value="end"
+                key={`${Math.random()}`}
+                control={
+                  <Radio
+                    checked={selectedValue === `${i}`}
+                    onChange={handleChange}
+                    value={`${i}`}
+                    name="radio-button-demo"
+                    inputProps={{ 'aria-label': `${i}` }}
+                  />
+                }
+                label={`${i}`}
+                labelPlacement="end"
+              />
+            ))}
+          </Grid>
+        </Grid>
+        <Grid item xs>
+          <Grid
+            container
+            direction="row"
+            justify="flex-start"
+            alignItems="flex-start"
+          >
             <Grid item xs>
               <Button
                 variant="contained"
                 color="primary"
-                onClick={() => publishMessageHandler()}
+                onClick={() => publishMessageHandler(selectedValue)}
               >
                 SEND
               </Button>

@@ -8,7 +8,12 @@ import appMessages from '../../constants/appMessages.json'
 
 const kafka = require('kafka-node')
 
-export const publishMessage = (config, selectedTopic, message) => dispatch => {
+export const publishMessage = (
+  config,
+  selectedTopic,
+  message,
+  partitionNum
+) => dispatch => {
   const promise = new Promise((resolve, reject) => {
     dispatch(publishMessageRequest())
     const client = new kafka.KafkaClient({
@@ -25,6 +30,7 @@ export const publishMessage = (config, selectedTopic, message) => dispatch => {
         topic: selectedTopic.topicName,
         messages: message,
         key: uniqueId,
+        partition: partitionNum,
       },
     ]
     console.log(payload)
