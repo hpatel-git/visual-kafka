@@ -18,6 +18,7 @@ const drawerWidth = 240
 
 ViewerLayout.propTypes = {
   updateSelectedTopic: PropTypes.func.isRequired,
+  addTopicHandler: PropTypes.func.isRequired,
   exitViewerHandler: PropTypes.func.isRequired,
   activeConnection: PropTypes.shape({
     listOfTopics: PropTypes.arrayOf(
@@ -76,7 +77,12 @@ const useStyles = makeStyles(theme => ({
 
 export default function ViewerLayout(props) {
   const classes = useStyles()
-  const { activeConnection, updateSelectedTopic, exitViewerHandler } = props
+  const {
+    activeConnection,
+    updateSelectedTopic,
+    exitViewerHandler,
+    addTopicHandler,
+  } = props
   const { listOfTopics, selectedTopic, isFetching } = activeConnection
   const defaultHeader = {
     topicName: `(${listOfTopics.length})`,
@@ -101,6 +107,7 @@ export default function ViewerLayout(props) {
       <TopicViewer
         listOfTopics={listOfTopics}
         updateSelectedTopic={updateSelectedTopic}
+        addTopicHandler={addTopicHandler}
       />
       <main
         className={clsx(classes.content, {

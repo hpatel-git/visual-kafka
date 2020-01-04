@@ -11,11 +11,17 @@ import PropTypes from 'prop-types'
 import StorageIcon from '@material-ui/icons/Storage'
 import ClearIcon from '@material-ui/icons/Clear'
 import SearchIcon from '@material-ui/icons/Search'
+import AddIcon from '@material-ui/icons/Add'
+import ListSubheader from '@material-ui/core/ListSubheader'
+import Button from '@material-ui/core/Button'
+
+import AddTopic from './AddTopic'
 
 const drawerWidth = 250
 
 TopicViewer.propTypes = {
   updateSelectedTopic: PropTypes.func.isRequired,
+  addTopicHandler: PropTypes.func.isRequired,
   listOfTopics: PropTypes.arrayOf(
     PropTypes.shape({
       topicName: PropTypes.string.isRequired,
@@ -27,6 +33,9 @@ TopicViewer.propTypes = {
 const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
+  },
+  addButton: {
+    marginLeft: '35px',
   },
   drawer: {
     width: drawerWidth,
@@ -72,19 +81,39 @@ const useStyles = makeStyles(theme => ({
 export default function TopicViewer(props) {
   const classes = useStyles()
   const { listOfTopics, updateSelectedTopic } = props
-  const [open] = React.useState(true)
   const [searchedTopics, setSearchedTopics] = React.useState(listOfTopics)
   const placeHolderText = `Hit Enter to Search`
+  const [open, setOpen] = React.useState(false)
+  const [isSideBarOpen] = React.useState(true)
+
+  const handleClickOpen = () => {
+    setOpen(true)
+  }
+  const handleCloseWithoutSaving = () => {
+    setOpen(false)
+  }
+
+  const handleSave = values => {
+    const { addTopicHandler } = props
+    addTopicHandler(values)
+    setOpen(false)
+  }
+
   return (
     <Drawer
       className={classes.drawer}
       variant="persistent"
       anchor="left"
-      open={open}
+      open={isSideBarOpen}
       classes={{
         paper: classes.drawerPaper,
       }}
     >
+      <AddTopic
+        isOpen={open}
+        handleSave={handleSave}
+        handleCloseWithoutSaving={handleCloseWithoutSaving}
+      />
       <div className={classes.drawerHeader}>
         <div className={classes.search}>
           <div className={classes.searchIcon}>
@@ -115,6 +144,17 @@ export default function TopicViewer(props) {
       </div>
       <Divider />
       <List>
+        <ListSubheader>
+          <Button
+            variant="contained"
+            color="primary"
+            className={classes.addButton}
+            onClick={() => handleClickOpen()}
+            startIcon={<AddIcon />}
+          >
+            Add Topic
+          </Button>
+        </ListSubheader>
         {searchedTopics && searchedTopics.length ? (
           searchedTopics.map(item => (
             <ListItem

@@ -31,6 +31,19 @@ export function fetchListOfTopics(config) {
   }
 }
 
+export function createTopic(topicForm, config) {
+  console.log(`>>>>> ${config}`)
+  return dispatch => {
+    const client = new kafka.KafkaClient({
+      kafkaHost: config.bootstrapServerUrls,
+    })
+    const admin = new kafka.Admin(client)
+    admin.createTopics([topicForm], () => {
+      dispatch(fetchListOfTopics(config))
+    })
+  }
+}
+
 export function updateSelectedTopic(topicName) {
   return {
     type: UPDATE_SELECTED_TOPIC,

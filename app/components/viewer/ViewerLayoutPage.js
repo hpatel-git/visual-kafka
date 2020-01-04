@@ -50,6 +50,13 @@ class ViewerLayoutPage extends Component<Props> {
     resetMessages()
   }
 
+  addTopicHandler = topicForm => {
+    const { viewerActions, activeConnection } = this.props
+    const { createTopic } = viewerActions
+    const { configuration } = activeConnection
+    createTopic(topicForm, configuration)
+  }
+
   render() {
     const { activeConnection, isFetching, classes } = this.props
     return (
@@ -64,6 +71,7 @@ class ViewerLayoutPage extends Component<Props> {
             activeConnection={activeConnection}
             exitViewerHandler={this.exitViewerHandler}
             updateSelectedTopic={this.updateSelectedTopic}
+            addTopicHandler={this.addTopicHandler}
           />
         )}
         {isFetching && (
