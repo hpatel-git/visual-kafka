@@ -1,12 +1,14 @@
 // @flow
 import React, { Component } from 'react'
 import { Grid } from '@material-ui/core'
+import { bindActionCreators } from 'redux'
 import CircularProgress from '@material-ui/core/CircularProgress'
 // import { makeStyles } from '@material-ui/core/styles'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { withStyles } from '@material-ui/core/styles'
-import * as viewerActions from '../../store/viewer/actionCreator'
+import * as viewerActionsCreator from '../../store/viewer/actionCreator'
+import * as consumerActionsCreator from '../../store/consumer/actionCreator'
 import routes from '../../constants/routes.json'
 import ViewerLayout from './ViewerLayout'
 
@@ -21,7 +23,8 @@ const styles = theme => ({
 // $FlowFixMe
 class ViewerLayoutPage extends Component<Props> {
   componentDidMount() {
-    const { configurations, fetchListOfTopics, match, history } = this.props
+    const { configurations, viewerActions, match, history } = this.props
+    const { fetchListOfTopics } = viewerActions
     const selectedConfig = configurations.filter(
       config => config.id === match.params.id
     )[0]
@@ -33,14 +36,18 @@ class ViewerLayoutPage extends Component<Props> {
   }
 
   exitViewerHandler = () => {
-    const { history, resetViewLayout } = this.props
+    const { history, viewerActions } = this.props
+    const { resetViewLayout } = viewerActions
     resetViewLayout()
     history.push(routes.CONNECTIONS)
   }
 
   updateSelectedTopic = topicName => {
-    const { updateSelectedTopic } = this.props
+    const { viewerActions, consumerActions } = this.props
+    const { updateSelectedTopic } = viewerActions
+    const { resetMessages } = consumerActions
     updateSelectedTopic(topicName)
+    resetMessages()
   }
 
   render() {
@@ -82,7 +89,14 @@ const mapStateToProps = state => {
   }
 }
 
+const mapDispatchToProps = dispatch => {
+  return {
+    consumerActions: bindActionCreators(consumerActionsCreator, dispatch),
+    viewerActions: bindActionCreators(viewerActionsCreator, dispatch),
+  }
+}
+
 export default connect<*, *, *, *, *, *>(
   mapStateToProps,
-  viewerActions
+  mapDispatchToProps
 )(withRouter(withStyles(styles)(ViewerLayoutPage)))

@@ -3,6 +3,7 @@ import {
   CONSUME_MESSAGE_SUCCESS,
   UPDATE_CONSUME_MESSAGE,
   FILTER_MESSAGE,
+  RESET_MESSAGES,
 } from './actionType'
 import appMessages from '../../constants/appMessages.json'
 
@@ -54,6 +55,12 @@ export function filterMessageBySearchTerm(searchTerm) {
         message.key.includes(searchTerm) || message.value.includes(searchTerm)
     )
     dispatch(filterMessage(filteredMessages))
+  }
+}
+
+export function resetMessages() {
+  return {
+    type: RESET_MESSAGES,
   }
 }
 

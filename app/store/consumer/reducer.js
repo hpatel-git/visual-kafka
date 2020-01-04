@@ -3,6 +3,7 @@ import {
   CONSUME_MESSAGE_SUCCESS,
   UPDATE_CONSUME_MESSAGE,
   FILTER_MESSAGE,
+  RESET_MESSAGES,
 } from './actionType'
 
 export const initialState = {
@@ -13,6 +14,14 @@ export const initialState = {
 
 export default function consumer(state = initialState, action = {}) {
   switch (action.type) {
+    case RESET_MESSAGES: {
+      const newState = {
+        ...state,
+        consumedMessages: [],
+        filteredMessages: [],
+      }
+      return newState
+    }
     case UPDATE_CONSUME_MESSAGE: {
       const { payload } = action
       const newState = {
