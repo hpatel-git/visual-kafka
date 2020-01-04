@@ -3,6 +3,7 @@ import {
   FETCH_LIST_OF_TOPICS_SUCCESS,
   UPDATE_SELECTED_TOPIC,
   RESET_VIEW_LAYOUT,
+  CREATE_TOPIC_SUCCESS,
 } from './actionType'
 
 export const initialState = {
@@ -38,6 +39,18 @@ export default function viewer(state = initialState, action = {}) {
         activeConnection: {
           listOfTopics: payload.listOfTopics,
           configuration: payload.configuration,
+        },
+      }
+      return newState
+    }
+    case CREATE_TOPIC_SUCCESS: {
+      const { payload } = action
+      const newState = {
+        ...state,
+        isFetching: false,
+        activeConnection: {
+          ...state.activeConnection,
+          listOfTopics: [...state.activeConnection.listOfTopics, payload],
         },
       }
       return newState

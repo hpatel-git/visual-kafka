@@ -3,6 +3,7 @@ import {
   FETCH_LIST_OF_TOPICS_SUCCESS,
   UPDATE_SELECTED_TOPIC,
   RESET_VIEW_LAYOUT,
+  CREATE_TOPIC_SUCCESS,
 } from './actionType'
 
 const kafka = require('kafka-node')
@@ -32,18 +33,27 @@ export function fetchListOfTopics(config) {
 }
 
 export function createTopic(topicForm, config) {
-  console.log(`>>>>> ${config}`)
   return dispatch => {
     const client = new kafka.KafkaClient({
       kafkaHost: config.bootstrapServerUrls,
     })
     const admin = new kafka.Admin(client)
     admin.createTopics([topicForm], () => {
-      dispatch(fetchListOfTopics(config))
+      dispatch(createTopicSuccess(topicForm))
     })
   }
 }
 
+function createTopicSuccess(topicForm) {
+  const newTopicPayload = {
+    topicName: topicForm.topic,
+    totalPartitions: topicForm.partitions,
+  }
+  return {
+    type: CREATE_TOPIC_SUCCESS,
+    payload: newTopicPayload,
+  }
+}
 export function updateSelectedTopic(topicName) {
   return {
     type: UPDATE_SELECTED_TOPIC,
