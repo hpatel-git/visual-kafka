@@ -6,7 +6,7 @@ import AddIcon from '@material-ui/icons/Add'
 import NewConnection from './NewConnection'
 
 AddConnection.propTypes = {
-  addConnectionHandler: PropTypes.func.isRequired
+  addConnectionHandler: PropTypes.func.isRequired,
 }
 
 const useStyles = makeStyles(theme => ({
