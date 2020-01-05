@@ -1,3 +1,4 @@
+/* eslint-disable */
 /**
  * Build config for electron renderer process
  */
