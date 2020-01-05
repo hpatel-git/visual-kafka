@@ -100,7 +100,7 @@
     },
     "publish": {
       "provider": "github",
-      "owner": "visual-kafka",
+      "owner": "hpatel-git",
       "repo": "visual-kafka",
       "private": false
     }
@@ -116,14 +116,9 @@
   },
   "contributors": [
     {
-      "name": "Vikram Rangaraj",
-      "email": "vikr01@icloud.com",
-      "url": "https://github.com/vikr01"
-    },
-    {
-      "name": "Amila Welihinda",
-      "email": "amilajack@gmail.com",
-      "url": "https://github.com/amilajack"
+      "name": "Hardikkumar Patel",
+      "email": "hardikkumar.ce@gmail.com",
+      "url": ""
     }
   ],
   "license": "MIT",
