@@ -23,12 +23,31 @@ jobs:
         run: |
           yarn install
 
-      - name: Packaging Application
+      - name: Packaging Application for MacOS
         env:
           GITHUB_TOKEN: ${{ secrets.VISUAL_KAFKA_GITHUB_TOKEN }}
+        if: startsWith(matrix.os, 'mac')
         run: |
           yarn package-ci
           yarn lint
           yarn flow
           yarn build-e2e
-          # yarn test-e2e
+
+      - name: Packaging Application for Windows
+        env:
+          GITHUB_TOKEN: ${{ secrets.VISUAL_KAFKA_GITHUB_TOKEN }}
+        if: startsWith(matrix.os, 'mac')
+        run: |
+          yarn package-ci
+          yarn lint
+          yarn build-e2e
+
+      - name: Packaging Application for Ubuntu
+        env:
+          GITHUB_TOKEN: ${{ secrets.VISUAL_KAFKA_GITHUB_TOKEN }}
+        if: startsWith(matrix.os, 'ubuntu')
+        run: |
+          yarn package-ci
+          yarn lint
+          yarn flow
+          yarn build-e2e
