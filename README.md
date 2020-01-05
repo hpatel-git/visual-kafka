@@ -38,6 +38,10 @@ yarn dev
 yarn package
 ```
 
-
-### Under development
+* Start application for release debug mode
+```
 DEBUG_PROD=true yarn build && DEBUG_PROD=true yarn start
+```
+
+
+
