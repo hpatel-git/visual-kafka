@@ -1,7 +1,7 @@
 {
-  "name": "electron-react-boilerplate",
+  "name": "visual-kafka",
   "productName": "Visual-Kafka",
-  "version": "0.18.1",
+  "version": "0.1.0",
   "description": "Electron application boilerplate based on React, React Router, Webpack, React Hot Loader for rapid application development",
   "scripts": {
     "build": "concurrently \"yarn build-main\" \"yarn build-renderer\"",
@@ -100,14 +100,14 @@
     },
     "publish": {
       "provider": "github",
-      "owner": "electron-react-boilerplate",
-      "repo": "electron-react-boilerplate",
+      "owner": "visual-kafka",
+      "repo": "visual-kafka",
       "private": false
     }
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/electron-react-boilerplate/electron-react-boilerplate.git"
+    "url": "git+https://github.com/hpatel-git/visual-kafka.git"
   },
   "author": {
     "name": "Hardikkumar Patel",
@@ -128,7 +128,7 @@
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/electron-react-boilerplate/electron-react-boilerplate/issues"
+    "url": "https://github.com/hpatel-git/visual-kafka/issues"
   },
   "keywords": [
     "electron",
@@ -141,7 +141,7 @@
     "hot",
     "reload"
   ],
-  "homepage": "https://github.com/electron-react-boilerplate/electron-react-boilerplate#readme",
+  "homepage": "https://github.com/hpatel-git/visual-kafka#readme",
   "jest": {
     "testURL": "http://localhost/",
     "moduleNameMapper": {
