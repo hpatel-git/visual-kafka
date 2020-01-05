@@ -1,3 +1,4 @@
+/* eslint-disable */
 // @flow
 import path from 'path';
 import { execSync } from 'child_process';

@@ -1,3 +1,4 @@
+/* eslint-disable */
 // @flow
 import chalk from 'chalk';
 

@@ -1,4 +1,4 @@
-/* eslint global-require: off */
+/* eslint-disable */
 
 /**
  * This module executes inside of electron's main process. You can start

@@ -1,3 +1,4 @@
+/* eslint-disable */
 /**
  * Webpack config for production electron main process
  */

@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { ClientFunction, Selector } from 'testcafe';
 import { getPageUrl } from './helpers';
 
@@ -38,11 +39,11 @@ test('should navigate to Counter with click on the "to Counter" link', async t =
     .eql('0');
 });
 
-test('should navigate to /counter', async t => {
+test('should navigate to /viewer', async t => {
   await t
     .click('a')
     .expect(getPageUrl())
-    .contains('/counter');
+    .contains('/viewer');
 });
 
 fixture`Counter Tests`

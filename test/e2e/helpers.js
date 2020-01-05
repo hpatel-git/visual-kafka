@@ -1,4 +1,4 @@
-/* eslint import/prefer-default-export: off */
+/* eslint-disable */
 import { ClientFunction } from 'testcafe';
 
 export const getPageUrl = ClientFunction(() => window.location.href);
