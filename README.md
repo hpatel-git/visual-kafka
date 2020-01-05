@@ -17,6 +17,27 @@ This is an open source thin client to consume and publish Kafka messages.It's bu
 * [Consumer](https://github.com/hpatel-git/visual-kafka/wiki/8.-Consumer)
 
 
+### Build on Local
+* Clone Visual Kafka source code
+```
+git clone git@github.com:hpatel-git/visual-kafka.git
+```
+
+* Build code using Yarn
+```
+yarn
+```
+
+* Start application for development
+```
+yarn dev
+```
+
+* Build release
+```
+yarn package
+```
+
 
 ### Under development
 DEBUG_PROD=true yarn build && DEBUG_PROD=true yarn start
