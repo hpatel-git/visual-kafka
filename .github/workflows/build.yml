@@ -23,7 +23,7 @@ jobs:
         run: |
           yarn install
 
-      - name: yarn test
+      - name: Packaging Application
         env:
           GITHUB_TOKEN: ${{ secrets.VISUAL_KAFKA_GITHUB_TOKEN }}
         run: |
@@ -31,4 +31,4 @@ jobs:
           yarn lint
           yarn flow
           yarn build-e2e
-          yarn test-e2e
+          # yarn test-e2e
