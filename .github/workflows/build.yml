@@ -26,7 +26,7 @@ jobs:
       - name: Packaging Application for MacOS
         env:
           GITHUB_TOKEN: ${{ secrets.VISUAL_KAFKA_GITHUB_TOKEN }}
-        if: startsWith(matrix.os, 'mac')
+        if: startsWith(matrix.os, 'macos-10.14')
         run: |
           yarn package-ci
           yarn lint
@@ -36,7 +36,7 @@ jobs:
       - name: Packaging Application for Windows
         env:
           GITHUB_TOKEN: ${{ secrets.VISUAL_KAFKA_GITHUB_TOKEN }}
-        if: startsWith(matrix.os, 'mac')
+        if: startsWith(matrix.os, 'windows-2019')
         run: |
           yarn package-ci
           yarn lint
@@ -45,7 +45,7 @@ jobs:
       - name: Packaging Application for Ubuntu
         env:
           GITHUB_TOKEN: ${{ secrets.VISUAL_KAFKA_GITHUB_TOKEN }}
-        if: startsWith(matrix.os, 'ubuntu')
+        if: startsWith(matrix.os, 'ubuntu-18.04')
         run: |
           yarn package-ci
           yarn lint
