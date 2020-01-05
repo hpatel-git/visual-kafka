@@ -6,7 +6,7 @@ This is an open source thin client to consume and publish Kafka messages.It's bu
 * Publish message to kafka partition
 * Consume messages from kafka topic
 
-### Table of Contents
+### User's Guide
 * [First Time Screen ](https://github.com/hpatel-git/visual-kafka/wiki/1.First-time-screen)
 * [Add Connection](https://github.com/hpatel-git/visual-kafka/wiki/2.Add-Connection)
 * [List of Connections](https://github.com/hpatel-git/visual-kafka/wiki/3.-List-of-Connections-screen)
