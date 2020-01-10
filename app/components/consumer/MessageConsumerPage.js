@@ -3,7 +3,8 @@ import React, { Component } from 'react'
 import { Grid } from '@material-ui/core'
 import { render } from 'react-dom'
 import CircularProgress from '@material-ui/core/CircularProgress'
-// import { makeStyles } from '@material-ui/core/styles'
+import { withStyles } from '@material-ui/core/styles'
+
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import * as consumerActions from '../../store/consumer/actionCreator'
@@ -11,12 +12,22 @@ import MessageConsumer from './MessageConsumer'
 import AppNotification from '../notification/AppNotification'
 import variantType from '../../constants/variantType.json'
 // $FlowFixMe
+const styles = theme => ({
+  root: {
+    position: 'fixed',
+    padding: theme.spacing(20, 60),
+    // display: 'flex',
+    alignItems: 'center',
+    // flexDirection: 'column',
+    justifyContent: 'center',
+  },
+})
 class MessageConsumerPage extends Component<Props> {
   consumeMessageHandler = () => {
     const { activeConnection, consumeMessage } = this.props
     const { configuration, selectedTopic } = activeConnection
     try {
-      const promise = consumeMessage(configuration, selectedTopic)
+      const promise = consumeMessage(configuration, selectedTopic, 100)
       promise
         // .then(result => this.showNotification(result, variantType.SUCCESS))
         .catch(err => this.showNotification(err.message, variantType.ERROR))
@@ -54,7 +65,12 @@ class MessageConsumerPage extends Component<Props> {
   }
 
   render() {
-    const { activeConnection, isFetching, filteredMessages } = this.props
+    const {
+      activeConnection,
+      isFetching,
+      filteredMessages,
+      classes,
+    } = this.props
     return (
       <Grid
         container
@@ -70,7 +86,11 @@ class MessageConsumerPage extends Component<Props> {
             searchMessageHandler={this.searchMessageHandler}
           />
         )}
-        {isFetching && <CircularProgress color="secondary" />}
+        {isFetching && (
+          <div className={classes.root}>
+            <CircularProgress />
+          </div>
+        )}
       </Grid>
     )
   }
@@ -90,4 +110,4 @@ const mapStateToProps = state => {
 export default connect<*, *, *, *, *, *>(
   mapStateToProps,
   consumerActions
-)(withRouter(MessageConsumerPage))
+)(withRouter(withStyles(styles)(MessageConsumerPage)))

@@ -4,6 +4,7 @@ import {
   UPDATE_CONSUME_MESSAGE,
   FILTER_MESSAGE,
   RESET_MESSAGES,
+  CONNECT_SUCCESS,
 } from './actionType'
 import appMessages from '../../constants/appMessages.json'
 
@@ -13,29 +14,40 @@ const uuidv4 = require('uuid/v4')
 const consumerOptions = {
   autoCommit: false,
   sessionTimeout: 15000,
+  fetchMaxBytes: 1024 * 100,
   commitOffsetsOnFirstJoin: false,
   protocol: ['roundrobin'],
   fromOffset: 'earliest', // equivalent of auto.offset.reset valid values are 'none', 'latest', 'earliest'
 }
-export const consumeMessage = (config, selectedTopic) => dispatch => {
+export const consumeMessage = (
+  config,
+  selectedTopic,
+  numberOfMessages
+) => dispatch => {
   const promise = new Promise((resolve, reject) => {
     consumerOptions.kafkaHost = config.bootstrapServerUrls
-    consumerOptions.groupId = `visual-kafka-${selectedTopic.topicName}`
-    consumerOptions.id = `visual-kafka-${selectedTopic.topicName}`
+    consumerOptions.groupId = `VK-${uuidv4()}-${selectedTopic.topicName}`
+    consumerOptions.id = `VK-${uuidv4()}-${selectedTopic.topicName}`
     dispatch(consumeMessageRequest())
     const topics = [selectedTopic.topicName]
     const consumerGroup = new kafka.ConsumerGroup(consumerOptions, topics)
+    let consumed = 0
     consumerGroup.on('message', inComingMessage => {
-      dispatch(consumeMessageSuccess(inComingMessage))
-      if (inComingMessage.offset === inComingMessage.highWaterOffset - 1) {
-        try {
-          consumerGroup.close(true, () => {
-            console.log('consumer has been closed..')
-          })
-        } catch (ex) {
-          resolve(`Message Consumed Successfully`)
-        }
+      consumed += 1
+      if (consumed < numberOfMessages) {
+        dispatch(consumeMessageSuccess(inComingMessage))
+      } else {
+        closeConsumerGroup(consumerGroup, resolve)
       }
+      console.log(consumed)
+      if (inComingMessage.offset === inComingMessage.highWaterOffset - 1) {
+        closeConsumerGroup(consumerGroup, resolve)
+      }
+    })
+
+    consumerGroup.once('connect', () => {
+      console.log(`Connected ${consumed}`)
+      dispatch(connectedSuccess())
     })
 
     consumerGroup.on('error', err => {
@@ -46,15 +58,32 @@ export const consumeMessage = (config, selectedTopic) => dispatch => {
   return promise
 }
 
+function closeConsumerGroup(consumerGroup, resolve) {
+  try {
+    consumerGroup.close(true, () => {
+      console.log('consumer has been closed..')
+    })
+  } catch (ex) {
+    resolve(`Message Consumed Successfully`)
+  }
+}
 export function filterMessageBySearchTerm(searchTerm) {
   return (dispatch, getState) => {
     const { consumer } = getState()
     const { consumedMessages } = consumer
+    console.log(`${searchTerm.toLowerCase()}`)
     const filteredMessages = consumedMessages.filter(
       message =>
-        message.key.includes(searchTerm) || message.value.includes(searchTerm)
+        message.key.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        message.value.toLowerCase().includes(searchTerm.toLowerCase())
     )
     dispatch(filterMessage(filteredMessages))
+  }
+}
+
+export function connectedSuccess() {
+  return {
+    type: CONNECT_SUCCESS,
   }
 }
 

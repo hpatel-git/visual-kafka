@@ -204,6 +204,12 @@ const useStyles = makeStyles(theme => ({
     top: 20,
     width: 1,
   },
+  narrowCell: {
+    width: '5px',
+  },
+  mediumCell: {
+    width: '25px',
+  },
   search: {
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
@@ -368,9 +374,13 @@ export default function MessageListViewer(props) {
                         {row.key}
                       </ShowMoreText>
                     </TableCell>
-                    <TableCell align="right">{row.partition}</TableCell>
-                    <TableCell align="right">{row.offset}</TableCell>
-                    <TableCell align="right">
+                    <TableCell align="right" className={classes.narrowCell}>
+                      {row.partition}
+                    </TableCell>
+                    <TableCell align="right" className={classes.narrowCell}>
+                      {row.offset}
+                    </TableCell>
+                    <TableCell align="right" className={classes.mediumCell}>
                       <Moment format="YYYY-MMM-DD hh:mm:ss">
                         {row.timestamp.toString()}
                       </Moment>

@@ -4,6 +4,7 @@ import {
   UPDATE_CONSUME_MESSAGE,
   FILTER_MESSAGE,
   RESET_MESSAGES,
+  CONNECT_SUCCESS,
 } from './actionType'
 
 export const initialState = {
@@ -55,6 +56,13 @@ export default function consumer(state = initialState, action = {}) {
         ...state,
         isFetching: false,
         filteredMessages: payload,
+      }
+      return newState
+    }
+    case CONNECT_SUCCESS: {
+      const newState = {
+        ...state,
+        isFetching: false,
       }
       return newState
     }
