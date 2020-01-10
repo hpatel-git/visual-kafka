@@ -1,4 +1,4 @@
-/* eslint global-require: off */
+/* eslint-disable */
 
 const developmentEnvironments = ['development', 'test'];
 
