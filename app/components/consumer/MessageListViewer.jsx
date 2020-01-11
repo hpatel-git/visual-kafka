@@ -18,8 +18,11 @@ import InputBase from '@material-ui/core/InputBase'
 import Tooltip from '@material-ui/core/Tooltip'
 import DeleteIcon from '@material-ui/icons/Delete'
 import FilterListIcon from '@material-ui/icons/FilterList'
+import FileCopyIcon from '@material-ui/icons/FileCopy'
 import Moment from 'react-moment'
 import ShowMoreText from 'react-show-more-text'
+import CopyToClipboard from 'react-copy-to-clipboard'
+import SendIcon from '@material-ui/icons/Send'
 
 function desc(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -48,6 +51,8 @@ function getSorting(order, orderBy) {
 }
 
 const headCells = [
+  { id: 'copy', numeric: false, disablePadding: false, label: 'Copy' },
+  { id: 'resend', numeric: false, disablePadding: false, label: 'Resend' },
   {
     id: 'key',
     numeric: false,
@@ -355,6 +360,18 @@ export default function MessageListViewer(props) {
                     key={row.name}
                     selected={isItemSelected}
                   >
+                    <TableCell align="center" className={classes.narrowCell}>
+                      <CopyToClipboard text={row.value}>
+                        <IconButton>
+                          <FileCopyIcon />
+                        </IconButton>
+                      </CopyToClipboard>
+                    </TableCell>
+                    <TableCell align="center" className={classes.narrowCell}>
+                      <IconButton>
+                        <SendIcon />
+                      </IconButton>
+                    </TableCell>
                     <TableCell
                       component="th"
                       id={labelId}
@@ -406,7 +423,7 @@ export default function MessageListViewer(props) {
               })}
             {emptyRows > 0 && (
               <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
-                <TableCell colSpan={5} />
+                <TableCell colSpan={6} />
               </TableRow>
             )}
           </TableBody>

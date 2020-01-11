@@ -19,6 +19,7 @@ import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
+import _ from 'lodash'
 
 Connection.propTypes = {
   connectionDetails: PropTypes.shape({
@@ -74,19 +75,31 @@ export default function Connection(props) {
       <Grid item xs={3}>
         <Card className={classes.card}>
           <CardContent>
-            <Typography
-              className={classes.title}
-              color="textSecondary"
-              gutterBottom
-            >
-              {connectionDetails.connectionName}
-            </Typography>
-            <Typography variant="body2" component="p">
-              {connectionDetails.connectionDesc}
-            </Typography>
-            <Typography variant="body2" component="p">
-              {connectionDetails.bootstrapServerUrls}
-            </Typography>
+            <Tooltip title={connectionDetails.connectionName}>
+              <Typography
+                className={classes.title}
+                color="textSecondary"
+                gutterBottom
+              >
+                {_.truncate(connectionDetails.connectionName, {
+                  length: 20,
+                })}
+              </Typography>
+            </Tooltip>
+            <Tooltip title={connectionDetails.connectionDesc}>
+              <Typography variant="body2" component="p">
+                {_.truncate(connectionDetails.connectionDesc, {
+                  length: 20,
+                })}
+              </Typography>
+            </Tooltip>
+            <Tooltip title={connectionDetails.bootstrapServerUrls}>
+              <Typography variant="body2" component="p">
+                {_.truncate(connectionDetails.bootstrapServerUrls, {
+                  length: 20,
+                })}
+              </Typography>
+            </Tooltip>
           </CardContent>
           <CardActions>
             <Tooltip title="Connect">

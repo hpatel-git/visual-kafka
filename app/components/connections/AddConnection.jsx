@@ -13,10 +13,8 @@ const useStyles = makeStyles(theme => ({
   card: {
     height: 155,
     marginRight: theme.spacing(2),
-  },
-  button: {
-    padding: theme.spacing(5, 15),
     display: 'flex',
+    alignItems: 'center',
     flexDirection: 'column',
     justifyContent: 'center',
   },
@@ -48,7 +46,7 @@ export default function AddConnection(props) {
               handleSave={handleSave}
               handleCloseWithoutSaving={handleCloseWithoutSaving}
             />
-            <div className={classes.button}>
+            <div>
               <Tooltip title="Add New Connection">
                 <Fab
                   color="primary"
