@@ -24,10 +24,14 @@ const styles = theme => ({
 })
 class MessageConsumerPage extends Component<Props> {
   consumeMessageHandler = () => {
-    const { activeConnection, consumeMessage } = this.props
+    const { activeConnection, consumeMessage, numberOfMessages } = this.props
     const { configuration, selectedTopic } = activeConnection
     try {
-      const promise = consumeMessage(configuration, selectedTopic, 100)
+      const promise = consumeMessage(
+        configuration,
+        selectedTopic,
+        numberOfMessages
+      )
       promise
         // .then(result => this.showNotification(result, variantType.SUCCESS))
         .catch(err => this.showNotification(err.message, variantType.ERROR))
@@ -42,6 +46,11 @@ class MessageConsumerPage extends Component<Props> {
     filterMessageBySearchTerm(searchTerms)
   }
 
+  updateNumberOfMessage = numberOfMessages => {
+    const { updateNumberOfMessage } = this.props
+    updateNumberOfMessage(parseInt(numberOfMessages, 10))
+  }
+
   showNotification = (notificationMessage, variant) => {
     const notification = (
       <AppNotification message={notificationMessage} variant={variant} />
@@ -54,14 +63,9 @@ class MessageConsumerPage extends Component<Props> {
     }
   }
 
-  clearMessageHandler = () => {
-    const { updatePublishMessage } = this.props
-    updatePublishMessage('')
-  }
-
-  updateMessageHandler = message => {
-    const { updatePublishMessage } = this.props
-    updatePublishMessage(message)
+  resetMessagesHandler = () => {
+    const { resetMessages } = this.props
+    resetMessages()
   }
 
   render() {
@@ -70,6 +74,7 @@ class MessageConsumerPage extends Component<Props> {
       isFetching,
       filteredMessages,
       classes,
+      numberOfMessages,
     } = this.props
     return (
       <Grid
@@ -82,8 +87,11 @@ class MessageConsumerPage extends Component<Props> {
           <MessageConsumer
             activeConnection={activeConnection}
             filteredMessages={filteredMessages}
+            numberOfMessages={numberOfMessages}
             consumeMessageHandler={this.consumeMessageHandler}
             searchMessageHandler={this.searchMessageHandler}
+            resetMessagesHandler={this.resetMessagesHandler}
+            updateNumberOfMessageHandler={this.updateNumberOfMessage}
           />
         )}
         {isFetching && (
@@ -99,11 +107,12 @@ class MessageConsumerPage extends Component<Props> {
 const mapStateToProps = state => {
   const { viewer, consumer } = state
   const { activeConnection } = viewer
-  const { filteredMessages, isFetching } = consumer
+  const { filteredMessages, isFetching, numberOfMessages } = consumer
   return {
     activeConnection,
     isFetching,
     filteredMessages,
+    numberOfMessages,
   }
 }
 

@@ -4,6 +4,7 @@ import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
 import PropTypes from 'prop-types'
 import Button from '@material-ui/core/Button'
+import TextField from '@material-ui/core/TextField'
 import MessageListViewer from './MessageListViewer'
 
 const drawerWidth = 240
@@ -11,6 +12,8 @@ const drawerWidth = 240
 MessageConsumer.propTypes = {
   consumeMessageHandler: PropTypes.func.isRequired,
   searchMessageHandler: PropTypes.func.isRequired,
+  resetMessagesHandler: PropTypes.func.isRequired,
+  updateNumberOfMessageHandler: PropTypes.func.isRequired,
   filteredMessages: PropTypes.arrayOf(
     PropTypes.shape({
       topic: PropTypes.string.isRequired,
@@ -38,6 +41,7 @@ MessageConsumer.propTypes = {
       bootstrapServerUrls: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
+  numberOfMessages: PropTypes.number.isRequired,
 }
 
 const useStyles = makeStyles(theme => ({
@@ -71,6 +75,10 @@ const useStyles = makeStyles(theme => ({
   leftMargin: {
     marginLeft: '10px',
   },
+  totalMessages: {
+    marginLeft: '10px',
+    marginBottom: '-15px',
+  },
   fullWidth: {
     width: '876px',
   },
@@ -90,6 +98,9 @@ export default function MessageConsumer(props) {
     consumeMessageHandler,
     filteredMessages,
     searchMessageHandler,
+    resetMessagesHandler,
+    numberOfMessages,
+    updateNumberOfMessageHandler,
   } = props
   const { configuration } = activeConnection
   const { connectionName, bootstrapServerUrls } = configuration
@@ -127,6 +138,7 @@ export default function MessageConsumer(props) {
               <Button
                 variant="contained"
                 color="primary"
+                className={classes.leftMargin}
                 onClick={() => consumeMessageHandler()}
               >
                 START
@@ -137,9 +149,28 @@ export default function MessageConsumer(props) {
                 variant="contained"
                 color="primary"
                 className={classes.leftMargin}
+                onClick={() => resetMessagesHandler()}
               >
-                STOP
+                CLEAR
               </Button>
+            </Grid>
+            <Grid item xs>
+              <TextField
+                id="connectionName"
+                type="number"
+                name="connectionName"
+                value={numberOfMessages}
+                helperText="Max Messages"
+                style={{ margin: 6 }}
+                placeholder="Message Count"
+                onChange={event =>
+                  updateNumberOfMessageHandler(event.target.value)
+                }
+                margin="normal"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
             </Grid>
           </Grid>
         </Grid>

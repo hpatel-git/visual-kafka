@@ -5,11 +5,13 @@ import {
   FILTER_MESSAGE,
   RESET_MESSAGES,
   CONNECT_SUCCESS,
+  UPDATE_NUMBER_OF_MESSAGES,
 } from './actionType'
 import appMessages from '../../constants/appMessages.json'
 
 const kafka = require('kafka-node')
 const uuidv4 = require('uuid/v4')
+const os = require('os')
 
 const consumerOptions = {
   autoCommit: false,
@@ -26,15 +28,16 @@ export const consumeMessage = (
 ) => dispatch => {
   const promise = new Promise((resolve, reject) => {
     consumerOptions.kafkaHost = config.bootstrapServerUrls
-    consumerOptions.groupId = `VK-${uuidv4()}-${selectedTopic.topicName}`
-    consumerOptions.id = `VK-${uuidv4()}-${selectedTopic.topicName}`
+    consumerOptions.groupId = `VK-${os.hostname()}-${selectedTopic.topicName}`
+    consumerOptions.id = `VK-${os.hostname()}-${selectedTopic.topicName}`
+    console.log(consumerOptions)
     dispatch(consumeMessageRequest())
     const topics = [selectedTopic.topicName]
     const consumerGroup = new kafka.ConsumerGroup(consumerOptions, topics)
     let consumed = 0
     consumerGroup.on('message', inComingMessage => {
       consumed += 1
-      if (consumed < numberOfMessages) {
+      if (consumed <= numberOfMessages) {
         dispatch(consumeMessageSuccess(inComingMessage))
       } else {
         closeConsumerGroup(consumerGroup, resolve)
@@ -58,6 +61,12 @@ export const consumeMessage = (
   return promise
 }
 
+export function updateNumberOfMessage(numberOfMessage) {
+  return {
+    type: UPDATE_NUMBER_OF_MESSAGES,
+    payload: numberOfMessage,
+  }
+}
 function closeConsumerGroup(consumerGroup, resolve) {
   try {
     consumerGroup.close(true, () => {

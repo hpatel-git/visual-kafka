@@ -209,6 +209,9 @@ const useStyles = makeStyles(theme => ({
     top: 20,
     width: 1,
   },
+  extraNarrowCell: {
+    width: '2px',
+  },
   narrowCell: {
     width: '5px',
   },
@@ -360,14 +363,17 @@ export default function MessageListViewer(props) {
                     key={row.name}
                     selected={isItemSelected}
                   >
-                    <TableCell align="center" className={classes.narrowCell}>
+                    <TableCell
+                      align="center"
+                      className={classes.extraNarrowCell}
+                    >
                       <CopyToClipboard text={row.value}>
                         <IconButton>
                           <FileCopyIcon />
                         </IconButton>
                       </CopyToClipboard>
                     </TableCell>
-                    <TableCell align="center" className={classes.narrowCell}>
+                    <TableCell align="left" className={classes.extraNarrowCell}>
                       <IconButton>
                         <SendIcon />
                       </IconButton>
@@ -423,7 +429,7 @@ export default function MessageListViewer(props) {
               })}
             {emptyRows > 0 && (
               <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
-                <TableCell colSpan={6} />
+                <TableCell colSpan={7} />
               </TableRow>
             )}
           </TableBody>

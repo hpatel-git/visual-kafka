@@ -5,12 +5,14 @@ import {
   FILTER_MESSAGE,
   RESET_MESSAGES,
   CONNECT_SUCCESS,
+  UPDATE_NUMBER_OF_MESSAGES,
 } from './actionType'
 
 export const initialState = {
   isFetching: false,
   consumedMessages: [],
   filteredMessages: [],
+  numberOfMessages: 100,
 }
 
 export default function consumer(state = initialState, action = {}) {
@@ -20,6 +22,14 @@ export default function consumer(state = initialState, action = {}) {
         ...state,
         consumedMessages: [],
         filteredMessages: [],
+      }
+      return newState
+    }
+    case UPDATE_NUMBER_OF_MESSAGES: {
+      const { payload } = action
+      const newState = {
+        ...state,
+        numberOfMessages: payload,
       }
       return newState
     }
