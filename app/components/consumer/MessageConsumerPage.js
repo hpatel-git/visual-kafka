@@ -22,6 +22,8 @@ const styles = theme => ({
     justifyContent: 'center',
   },
 })
+
+// $FlowFixMe
 class MessageConsumerPage extends Component<Props> {
   consumeMessageHandler = () => {
     const { activeConnection, consumeMessage, numberOfMessages } = this.props
