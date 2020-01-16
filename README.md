@@ -16,6 +16,10 @@ This is an open source thin client to consume and publish Kafka messages.It's bu
 * [Publish Success](https://github.com/hpatel-git/visual-kafka/wiki/7.-Publish-Success)
 * [Consumer](https://github.com/hpatel-git/visual-kafka/wiki/8.-Consumer)
 
+### Download release version 
+
+For MAC OS https://github.com/hpatel-git/visual-kafka/releases/download/v0.1.0/VisualKafka-0.1.0.dmg
+
 
 ### Build on Local
 * Clone Visual Kafka source code
