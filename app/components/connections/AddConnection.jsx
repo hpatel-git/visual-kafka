@@ -50,6 +50,7 @@ export default function AddConnection(props) {
               <Tooltip title="Add New Connection">
                 <Fab
                   color="primary"
+                  data-tid="addConnectionButton"
                   aria-label="add"
                   onClick={() => handleClickOpen()}
                 >
