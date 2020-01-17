@@ -18,8 +18,8 @@ This is an open source thin client to consume and publish Kafka messages.It's bu
 
 ### Download release version 
 
-* [For MAC OS ](https://github.com/hpatel-git/visual-kafka/releases/download/v1.0.1/VisualKafka-1.0.1.dmg)
-* [For Widnows ](https://github.com/hpatel-git/visual-kafka/releases/download/v1.0.1/VisualKafka-Setup-1.0.1.exe)
+* [MAC OS ](https://github.com/hpatel-git/visual-kafka/releases/download/v1.0.1/VisualKafka-1.0.1.dmg)
+* [Widnows ](https://github.com/hpatel-git/visual-kafka/releases/download/v1.0.1/VisualKafka-Setup-1.0.1.exe)
 
 
 
